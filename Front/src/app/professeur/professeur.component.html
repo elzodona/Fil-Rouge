@@ -1,0 +1,152 @@
+<div class="flex">
+
+    <aside id="logo-sidebar" class="w-[25%] h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
+        <div style="background-color:#57b6f5;" class="h-full px-3 py-4 overflow-y-auto dark:bg-gray-800">
+
+            <div
+                class="w-full mt-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex items-center">
+                    <img class="w-[40%] h-[60%] rounded-full dark:opacity-70" [src]="img" alt="user's tof" />
+                    <div class="flex flex-col gap-4 ml-7">
+                        <h5 class="text-2xl font-medium text-gray-900 dark:text-white">
+                            {{name}}
+                        </h5>
+                        <span class="text-lg text-gray-500 dark:text-gray-400">
+                            {{role}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-3 pb-4 mt-16 overflow-y-auto text-white dark:bg-gray-800">
+                <ul class="space-y-10 font-medium text-center">
+                    <li
+                        class="flex items-center p-2 rounded-lg cursor-pointer dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <span class="flex-1 ml-3 text-3xl text-black whitespace-nowrap">Home</span>
+                    </li>
+                    <li
+                        class="flex items-center p-2 rounded-lg cursor-pointer dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <span (click)="deconnecter()" class="flex-1 ml-3 text-3xl whitespace-nowrap">Sign Up</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col items-center mt-16 space-y-2">
+                <img class="w-[50%] h-[50%] border-4 border-white rounded-full" src="assets/logo.png"
+                    alt="school's tof" />
+                <h2 class="text-2xl font-medium text-white dark:text-light">
+                    Breukh'School
+                </h2>
+
+            </div>
+
+        </div>
+    </aside>
+
+    <ng-container *ngIf="display">
+        <div class="w-full h-screen p-4">
+
+            <div class="flex flex-col gap-10 h-screen shadow-xl shadow-[#57b6f5]">
+
+                <div class="h-[18%] grid grid-cols-3 shadow-lg gap-2 shadow-[#57b6f5]">
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Annee Scolaire</p>
+                            <p style="font-size: 1.5em;" class="text-center">2023/2024</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Nombre de cours</p>
+                            <p style="font-size: 1.5em;" class="text-center">{{count}}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Heures total</p>
+                            <p style="font-size: 1.5em;" class="text-center">{{ convertirEnHeures(times) }}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="shadow-2xl">
+                    <h1 class="text-center shadow-2xl bg-[#57b6f5] text-white" style="font-size: 3em;">Liste Cours</h1>
+                </div>
+                <div
+                    class="max-h-[70%] overflow-y-auto grid grid-cols-1 shadow-2xl shadow-[#57b6f5] md:grid-cols-2 lg:grid-cols-3 ga2">
+                    <div *ngFor="let cour of cours"
+                        class="m-4 flex flex-col bg-white shadow-xl shadow-[#57b6f5] p-4 mb-4 rounded-lg">
+                        <div class="flex justify-between">
+                            <p class="text-xl">{{ convertirEnHeures(cour.time) }}</p>
+                        </div>
+                        <h2
+                            class="text-3xl mt-6 text-center text-black border-2 rounded-2xl bg-[#57b6f5] font-bold mb-2">
+                            {{ cour.module_id.libelle }}
+                        </h2>
+                        <div class="flex justify-between mt-4">
+                            <span class="p-2 m-1 mt-2">
+                                {{cour.etat}}
+                            </span>
+                            <button (click)="sessions(cour)"
+                                class="m-2 p-2 text-right shadow-2xl text-white rounded-2xl bg-[#57b6f5]">
+                                sessions
+                                <span class="p-2 m-2 text-white border-2 border-white rounded-2xl">
+                                    {{ cour.session.length }}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!display">
+        <div class="w-full h-screen p-4">
+
+            <div class="flex flex-col gap-10 h-screen shadow-xl shadow-[#57b6f5]">
+
+                <div class="h-[18%] grid grid-cols-3 shadow-lg gap-2 shadow-[#57b6f5]">
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Annee Scolaire</p>
+                            <p style="font-size: 1.5em;" class="text-center">2023/2024</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Nombre de sesions</p>
+                            <p style="font-size: 1.5em;" class="text-center">{{num}}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Heures total</p>
+                            <p style="font-size: 1.5em;" class="text-center">{{ heures }}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="h-[75%] w-full overflow-y-auto shadow-2xl shadow-[#57b6f5]">
+                    <button class="rounded-2xl m-2 p-3 shadow-2xl shadow-[#57b6f5] border-2 border-[#57b6f5] text-black"
+                        (click)="allCours()">retour au cours</button>
+                    <app-sescour></app-sescour>
+                </div>
+
+            </div>
+
+        </div>
+    </ng-container>
+
+</div>

@@ -1,0 +1,80 @@
+
+<div class="flex flex-col gap-10 h-screen shadow-xl shadow-[#57b6f5]">
+
+    <div class="h-[15%] shadow shadow-[#57b6f5]">
+        <div style="border-bottom-right-radius: 5rem;border-bottom-left-radius: 5rem;"
+            class="flex items-center justify-center h-24 mt-4 shadow-2xl rounded bg-[#57b6f5] dark:bg-gray-800">
+            <p class="text-4xl text-white dark:text-gray-500">
+                Inscription des élèves
+            </p>
+        </div>
+    </div>
+    
+    <div class="max-h-[70%] overflow-y-auto grid grid-cols-1 shadow-xl shadow-[#57b6f5] md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div *ngFor="let classe of classes"
+                class="m-4 flex flex-col bg-white shadow-xl shadow-[#57b6f5] p-4 mb-4 rounded-lg">
+                <div class="text-2xl text-center">
+                    {{classe.filiere.libelle}}
+                </div>
+                <h2 class="text-3xl mt-6 text-center text-black border-2 rounded-2xl bg-[#57b6f5] font-bold mb-2">
+                    {{classe.libelle}}
+                </h2>
+                <div class="flex justify-between mt-4">
+                    <div class="flex justify-between mt-3">
+                        <p class="text-xl">effectifs: <span
+                            class="bg-[#57b6f5] text-white rounded-lg p-2 m-1 border border-white">{{classe.effectif}}</span></p>
+                    </div>
+                    <button (click)="inscrire(classe.id)"
+                        class="m-2 p-2 text-right shadow-2xl text-white rounded-2xl bg-[#57b6f5]">
+                        inscrire
+                    </button>
+                </div>
+            </div>
+
+    </div>
+
+</div>
+
+
+
+<div id="modal" tabindex="-1" aria-hidden="true" style="margin-left: 20rem; margin-top: -45rem"
+    class="w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" (click)="closeModal()"
+                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-2xl font-medium text-center text-gray-900 dark:text-white">Inscription élèves</h3>
+                <form class="space-y-6" action="#">
+                    <div class="flex items-center justify-center w-full">
+                        <label for="dropzone-file"
+                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span>
+                                    or drag and drop</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                            </div>
+                            <input (change)="onFileSelected($event)" type="file"  />
+                        </label>
+                    </div>
+                    <button (click)="save()"
+                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

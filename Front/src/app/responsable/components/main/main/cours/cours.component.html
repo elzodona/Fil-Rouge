@@ -1,0 +1,110 @@
+
+
+<div class="p-4 border-dashed rounded-lg shadow-2xl dark:border-gray-700">
+
+    <div class="mb-4 shadow-2xl">
+        <div style="border-bottom-right-radius: 5rem;border-bottom-left-radius: 5rem;" class="flex items-center justify-center h-24 shadow-2xl rounded bg-[#57b6f5] dark:bg-gray-800">
+            <p class="text-4xl text-white dark:text-gray-500">
+                Planification de cours
+            </p>
+        </div>
+    </div>
+
+    <div [formGroup]="coursForm" class="grid grid-cols-2 gap-4 mb-4 shadow-2xl">
+        <div class="shadow-2xl grid grid-rows-2 rounded bg-[#57b6f5] h-96 dark:bg-gray-800">
+            
+            <div class="grid grid-cols-2 gap-4 m-4 ml-4 shadow-2xl">
+                <div class="relative z-0 w-full mb-6 group">
+                    <label for="countries" class="block mb-2 text-2xl font-medium text-white dark:text-white">
+                        Semestre
+                    </label>
+                    <select formControlName="semestre"
+                        class="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected value="un">Choisir un semestre</option>
+                        <option value="1">Semestre 1</option>
+                        <option value="2">Semestre 2</option>
+                    </select>
+                </div>
+                <div class="relative z-0 w-full mb-6 group">
+                    <label for="countries" class="block mb-2 text-2xl font-medium text-white dark:text-white">
+                        Filière
+                    </label>
+                    <select id="countries" formControlName="filiere" (change)="recupFil()"
+                        class="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected value="deux">Choisir une filière</option>
+                        <option *ngFor="let fil of filieres" [value]="fil.id">{{fil.libelle}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 m-4 ml-4 shadow-2xl">
+                <div class="relative z-0 w-full mb-6 group">
+                    <label for="countries" class="block mb-2 text-2xl font-medium text-white dark:text-white">
+                        Module
+                    </label>
+                    <select id="countries" formControlName="module" (change)="recupMod()"
+                        class="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <!-- <ng-container *ngIf="modules.length > 0"> -->
+                            <option selected value="hop">Choisir un module</option>
+                            <option *ngFor="let mod of modules" [value]="mod.id">{{mod.libelle}}</option>
+                        <!-- </ng-container> -->
+                    </select>
+                </div>
+                <div class="relative z-0 w-full mb-6 group">
+                    <label for="countries" class="block mb-2 text-2xl font-medium text-white dark:text-white">
+                        Nombre d'heures
+                    </label>
+                    <input type="text" formControlName="timing"
+                        class="text-center p-2 text-xl w-full h-[37%] rounded-lg" placeholder="entrer un nombre">
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded shadow-2xl bg-[#57b6f5] h-96 dark:bg-gray-800">
+
+        <div class="relative flex flex-col items-center justify-center overflow-x-auto shadow-2xl sm:rounded-lg">
+
+            <h3 class="mt-4 text-3xl text-white">Professeurs disponibles</h3>
+
+            <table class="w-full mt-4 shadow-2xl">
+                <thead class="p-3 shadow-2xl">
+                    <tr class="flex justify-between w-full text-lg text-white">
+                        <th class="px-3 py-3">Photo</th>
+                        <th class="px-3 py-3">Name</th>
+                        <th class="px-3 py-3">Spécialité</th>
+                        <th class="px-3 py-3">Action</th>
+                    </tr>
+                    <hr class="h-1 bg-white" />
+                </thead>
+                <tbody class="p-3 overflow-y-auto shadow-2xl max-h-20">
+                    <tr *ngFor="let prof of profs" class="flex items-center justify-between text-lg text-white shadow-lg">
+                        <td class="px-1 py-1">
+                            <img class="w-20 rounded" src="http://localhost:8000/storage/{{prof.photo}}" alt="" />
+                        </td>
+                        <td class="px-1 py-1">{{prof.name}}</td>
+                        <td class="px-1 py-1">{{prof.specialite}}</td>
+                        <td class="px-1 py-1">
+                            <button type="button"
+                                class="text-black bg-white focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900"
+                                (click)="toggleButtonState(prof)">
+                                {{ prof.isAdding ? 'Annuler' : 'Ajouter' }}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        </div>
+    </div>
+
+    <div class="shadow-2xl flex items-center justify-center h-48 mb-4 rounded bg-[#57b6f5] dark:bg-gray-800">
+        <button type="button" (click)="addCours()"
+            class="focus:outline-none shadow-2xl text-black bg-white hover:bg-[#57b6f5] hover:border-2 hover:border-white focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-3xl px-16 py-5 mr-2 mb-2 dark:focus:ring-yellow-900">
+            Enregistrer
+        </button>
+    </div>
+
+</div>
+

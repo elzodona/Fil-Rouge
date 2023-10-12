@@ -1,0 +1,162 @@
+
+<div class="flex">
+
+    <aside id="logo-sidebar" class="w-[25%] h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
+        <div style="background-color:#57b6f5;" class="h-full px-3 py-4 overflow-y-auto dark:bg-gray-800">
+
+            <div
+                class="w-full mt-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex items-center">
+                    <img class="w-[40%] h-[60%] rounded-full dark:opacity-70" [src]="img" alt="user's tof" />
+                    <div class="flex flex-col gap-4 ml-7">
+                        <h5 class="text-2xl font-medium text-gray-900 dark:text-white">
+                            {{name}}
+                        </h5>
+                        <span class="text-lg text-gray-500 dark:text-gray-400">
+                            {{role}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-3 pb-4 mt-16 overflow-y-auto text-white dark:bg-gray-800">
+                <ul class="space-y-10 font-medium text-center">
+                    <li
+                        class="flex items-center p-2 rounded-lg cursor-pointer dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <span class="flex-1 ml-3 text-3xl text-black whitespace-nowrap">Home</span>
+                    </li>
+                    <li
+                        class="flex items-center p-2 rounded-lg cursor-pointer dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        <span (click)="deconnecter()" class="flex-1 ml-3 text-3xl whitespace-nowrap">Sign Up</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col items-center mt-16 space-y-2">
+                <img class="w-[50%] h-[50%] border-4 border-white rounded-full" src="assets/logo.png"
+                    alt="school's tof" />
+                <h2 class="text-2xl font-medium text-white dark:text-light">
+                    Breukh'School
+                </h2>
+
+            </div>
+
+        </div>
+    </aside>
+
+
+    <div class="w-full h-screen p-4">
+
+            <div class="flex flex-col gap-10 h-screen shadow-xl shadow-[#57b6f5]">
+
+                <div class="h-[18%] grid grid-cols-3 shadow-lg gap-2 shadow-[#57b6f5]">
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Annee Scolaire</p>
+                            <p style="font-size: 1.5em;" class="text-center">2023/2024</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Nombre de cours</p>
+                            <p style="font-size: 1.5em;" class="text-center"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Heures total</p>
+                            <p style="font-size: 1.5em;" class="text-center"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <h1 class="text-4xl text-center">Demandes d'Annulation de sessions</h1>
+
+                <div class="max-h-[70%] overflow-y-auto grid grid-cols-1 shadow-2xl shadow-[#57b6f5] md:grid-cols-2 lg:grid-cols-3 ga2">
+                    <div *ngFor="let demand of demandes" class="m-4 flex flex-col bg-white shadow-xl shadow-[#57b6f5] p-4 mb-4 rounded-lg">                        
+                        <div class="grid grid-cols-1 gap-4">
+                            <h2 class="text-3xl p-2 text-center text-black border-2 rounded-2xl bg-[#57b6f5] font-bold mb-2">
+                                {{ demand.module }} / {{ demand.prof}}
+                            </h2>
+                            <div class="grid grid-cols-2">
+                                <div>
+                                    <div class="flex justify-between">
+                                        <p class="text-2xl">Salle: {{ separer(demand.salle.nom) }}</p>
+                                    </div>
+                                    <div class="flex justify-between mt-2">
+                                        <p class="text-2xl">Date: {{ separer(demand.date_session) }}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl">
+                                        Debut: {{ convertirEnHeures(demand.started_at) }}
+                                    </div>
+                                    <div class="mt-2 text-2xl">
+                                        Fin: {{ convertirEnHeures(demand.finished_at) }}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <p class="text-2xl">Classes:
+                                <ng-container *ngFor="let classe of demand.classes; let last = last">
+                                    {{ classe.libelle }}
+                                    <span *ngIf="!last"> / </span>
+                                </ng-container>
+                            </p>
+                            <div class="m-2 ">
+                                <span (click)="response(demand)" class="cursor-pointer float-right bg-[#57b6f5] text-center rounded-2xl p-3 text-xl">
+                                    voir motif
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        
+</div>
+
+<div id="modal" tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 shadow-2xl p-4 hidden overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="w-full max-w-md max-h-full shadow-2xl absolute top-[30%] left-[40%]">
+        <div class="relative bg-white rounded-lg shadow-2xl dark:bg-gray-700">
+            <button (click)="closeModal()"
+                class="absolute top-3 right-2.5 text-black bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+                <svg class="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-gray-200" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <h3 class="mb-5 text-2xl font-medium dark:text-gray-400">
+                    {{motif}}
+                </h3>
+                <button (click)="accepter()"
+                    class="bg-[#57b6f5] text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-xl text-xl inline-flex items-center px-5 py-2.5 text-center mr-2">
+                    Accepter
+                </button>
+                <button (click)="refuser()"
+                    class="bg-[#57b6f5] text-white focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-xl text-xl font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

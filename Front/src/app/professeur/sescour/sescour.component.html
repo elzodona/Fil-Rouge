@@ -1,0 +1,54 @@
+<!-- <button (click)="noWeeks()">no weekends</button> -->
+
+
+<div class="w-[123%]">
+
+    <full-calendar id="calendar" [options]="calendarOptions" [events]="calendarEvents"
+        (eventClick)="handleEventClick($event)" class="p-2 m-2 text-xl bg-blue-100 rounded-2xl">
+
+    </full-calendar>
+
+    <div id="sessionModal" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+
+            <h2 style="font-size: 2em;" class="text-center">Informations de la session</h2>
+            <hr />
+            <ng-container *ngIf="sessionDetails">
+                <div class="m-5">
+                    <p class="p-1 m-1 text-2xl">Date de la session : {{ sessionDetails.date_session }}</p>
+                    <p class="p-1 m-1 text-2xl">Heure de début : {{ convertToTime(sessionDetails.started_at) }}</p>
+                    <p class="p-1 m-1 text-2xl">Heure de fin : {{ convertToTime(sessionDetails.finished_at) }}</p>
+                    <p class="p-1 m-1 text-2xl">Salle : {{ sessionDetails.salle.nom }}</p>
+                    <p class="p-1 m-1 text-2xl">Durée : {{ convertToTime(sessionDetails.duration) }}</p>
+                    <p class="p-1 m-1 text-2xl">Classes :
+                        <ng-container *ngFor="let classe of sessionDetails.classes">
+                            {{ classe.libelle }}
+                        </ng-container>
+                    </p>
+                </div>
+
+                <hr />
+
+                <button (click)="annuler(sessionDetails)"
+                    class="cancel-button text-2xl float-right border-2 border-[#57b6f5] rounded-2xl mt-6 p-2 m-2">
+                    Demande d'annulation
+                </button>
+            </ng-container>
+        </div>
+    </div>
+
+</div>
+
+<div id="annulationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" (click)="close()">&times;</span>
+        <h2 class="m-4 text-2xl text-center">Demander l'annulation</h2>
+        <hr />
+        <textarea class="w-full h-[65%] text-xl" [(ngModel)]="motif"
+            placeholder="Entrez le motif d'annulation"></textarea>
+        <hr />
+        <button (click)="annulerSession()" class="float-right m-4 text-2xl border-2 border-blue-400">Envoyer la
+            demande</button>
+    </div>
+</div>

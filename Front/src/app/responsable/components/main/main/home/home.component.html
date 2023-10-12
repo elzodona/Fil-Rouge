@@ -1,0 +1,81 @@
+
+
+
+<div class="flex flex-col gap-10 h-screen shadow-xl shadow-[#57b6f5]">
+
+    <div class="h-[20%] shadow grid grid-cols-3 gap-2 shadow-[#57b6f5]">
+        <div class="m-4 p-2 grid grid-cols-1">
+            <h1 class="font-medium" style="font-size: 2em;" >Année Scolaire</h1>
+            <span class="text-2xl">2023/2024</span>
+            
+        </div>
+
+        <ng-container *ngIf="display">
+        <div>
+            <h1 style="font-size: 3em;" class="mt-16 text-xl font-medium">Cours Planifiés</h1>
+        </div>
+        <div class="flex mt-20">
+            <div class="ml-24">
+                <select id="countries" [(ngModel)]="selectedEtat"
+                    class="bg-gray-50 border border-gray-300 text-black text-center text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[150%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option selected value="deux">Filtrer par etat</option>
+                    <option value="en cours">en cours</option>
+                    <option value="termine">terminé</option>
+                </select>
+            </div>
+        </div>
+        </ng-container>
+
+        <ng-container *ngIf="!display">
+                <div>
+                    <h1 style="font-size: 3em;" class="mt-12 font-medium">Sessions Planifiés</h1>
+                </div>
+
+                <div class="flex flex-col mt-10 ml-5 gap-4">
+                    <span style="font-size: 2em;" class="font-medium"><span class="text-2xl">{{module | module}}</span></span>
+                    <span style="font-size: 2em;" class="font-medium"><span class="text-2xl">{{prof | professeur}}</span> </span>
+                </div>
+        </ng-container>
+
+    </div>
+
+    <div class="max-h-[70%] overflow-y-auto grid grid-cols-1 shadow-xl shadow-[#57b6f5] md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <ng-container *ngIf="display">
+            <div *ngIf="cours.length == 0" class="flex justify-center items-center">
+                <h1 class="text-red-700 text-2xl text-center"> Aucun cours n'a été planifié </h1>
+            </div>
+
+            <div *ngFor="let cour of cours.reverse() | etatCour:selectedEtat" class="m-4 flex flex-col bg-white shadow-xl shadow-[#57b6f5] p-4 mb-4 rounded-lg">
+                <div class="flex justify-between">
+                    <p class="text-xl">{{ cour.prof_id.name }}</p>
+                    <p class="text-xl">{{ convertirEnHeures(cour.time) }}</p>
+                </div>
+                <h2 class="text-3xl mt-6 text-center text-black border-2 rounded-2xl bg-[#57b6f5] font-bold mb-2">{{ cour.module_id.libelle }}</h2>
+                <div class="flex justify-between mt-4">
+                    <span class="m-1 p-2 mt-2">
+                        {{cour.etat}}
+                    </span>
+                    <button (click)="sessionByCour(cour)" class="m-2 p-2 text-right shadow-2xl text-white rounded-2xl bg-[#57b6f5]">
+                        sessions
+                        <span class="m-2 p-2 border-2 border-white rounded-2xl text-white">
+                            {{ cour.session.length }}
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="!display">
+            <app-liste-session></app-liste-session>
+            
+        </ng-container>
+        
+    </div>
+
+    <ng-container *ngIf="!display">
+        <div>
+        <button class="rounded-2xl m-6 p-3 shadow-2xl shadow-[#57b6f5] border-2 border-[#57b6f5] text-black" (click)="allCours()">retour au cours</button>
+        </div>
+    </ng-container>
+
+</div>

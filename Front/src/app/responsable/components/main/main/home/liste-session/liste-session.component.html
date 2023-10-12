@@ -1,0 +1,108 @@
+
+
+    <div class=" px-10 w-[300%]">
+
+        <div class="flex gap-4">
+            <div class="flex space-x-4">
+                <label class="text-xl">Salle</label>
+                <select [(ngModel)]="selectedSalle" class="h-8">
+                    <option selected value="un">choisis une salle</option>
+                    <option *ngFor="let sal of salle" [value]="sal.nom">{{sal.nom}}</option>
+                </select>
+            </div>
+            <div class="flex space-x-4">
+                <label class="text-xl">Classe</label>
+                <select [(ngModel)]="selectedClasse" class="h-8">
+                    <option selected value="un">choisis une classe</option>
+                    <option *ngFor="let classe of classes" [value]="classe.libelle">{{classe.libelle}}</option>
+                </select>
+            </div>
+            <div class="flex space-x-4">
+                <label class="text-xl">Filtrer durée par ordre: </label>
+                <select [(ngModel)]="selectedDuree" class="h-8">
+                    <option selected value="un">choisis un ordre</option>
+                    <option value="1">croissant</option>
+                    <option value="2">decroissant</option>
+                </select>
+            </div>
+            <div class="flex space-x-4">
+                <label class="text-xl">Filtrer par date: </label>
+                <select [(ngModel)]="selectedDate" class="h-8 w-40">
+                    <option selected value="un">choisir</option>
+                    <option value="1">recent</option>
+                    <option value="2">ancien</option>
+                </select>
+            </div>
+        </div>
+
+
+<div class="relative overflow-x-auto mt-10 shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-2xl text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Date Session
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Heure Début
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Heure Fin
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Durée
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Classes
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Salle
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let session of sessions | salle:selectedSalle | classe:selectedClasse | duree:selectedDuree | date:selectedDate" class="bg-white border-b text-xl dark:bg-gray-900 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ separer(session.date_session) }}
+                </th>
+                <td class="px-6 py-4">
+                    {{ convertirEnHeures(session.started_at) }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ convertirEnHeures(session.finished_at) }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ convertirEnHeures(session.duration) }}
+                </td>
+                <td class="px-6 py-4">
+                    <select>
+                        <option *ngFor="let classe of session.classes" [value]="classe.libelle">
+                            {{classe.libelle}}
+                        </option>
+                    </select>
+                </td>
+                <td class="px-6 py-4">
+                    <ng-container *ngIf="session.salle == null">
+                        en ligne
+                    </ng-container>
+                    <ng-container *ngIf="session.salle">
+                        {{session.salle.nom}}
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    <nav aria-label="Page navigation example" class="float-right shadow-md shadow-[#57b6f5] mt-16 rounded">
+        <ul class="pagination flex justify-center items-center text-2xl gap-16 h-10 bg-[#f0be67]">
+            <!-- <li style="cursor: pointer;" *ngFor="let link of links" (click)="toPaginate(link.url)"
+                [class.active]="link.active" class="page-item p-1"><button class="page-link"
+                    [innerHtml]="link.label"></button>
+            </li> -->
+        </ul>
+    </nav>
+
+</div>
+
+        

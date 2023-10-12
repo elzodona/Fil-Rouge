@@ -1,0 +1,139 @@
+<div class="h-screen p-2 border-dashed rounded-lg shadow-2xl dark:border-gray-700">
+
+    <div class="mb-4 shadow-2xl">
+        <div style="background-color: #57b6f5; border-bottom-right-radius: 5rem;border-bottom-left-radius: 5rem;" class="flex items-center justify-center h-24 rounded shadow-2xl dark:bg-gray-800">
+            <p class="shadow-2xl text-4xl text-[#0f0f42] dark:text-gray-500">
+                Planification de session de cours
+            </p>
+        </div>
+    </div>
+
+    <div [formGroup]="sessionForm" class="grid gap-4 mb-4 shadow-2xl grid-row">
+        <div class="grid grid-cols-2 gap-4 m-2 mb-4 shadow-2xl">
+        <div class="m-2 shadow-2xl flex flex-col justify-center items-center max-h-[100%] rounded bg-[#57b6f5] overflow-y-auto dark:bg-gray-800">
+    
+            <!-- <div class="grid grid-cols-2 gap-4 m-4 ml-4"> -->
+                <div class="relative z-0 w-[70%] mb-14 ">
+                    <label for="countries" class="text-center block mb-2 text-2xl font-medium text-[#0f0f42] dark:text-white">
+                        Semestre
+                    </label>
+                    <select id="countries" (change)="recupSm()" formControlName="semestre"
+                        class="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected value="humm">Choisir un semestre</option>
+                        <option value="1">semestre 1</option>
+                        <option value="2">semestre 2</option>
+                    </select>
+                </div>
+                <div class="relative z-0 w-[70%] mb-14">
+                    <label for="countries" class="text-center block mb-2 text-2xl font-medium text-[#0f0f42] dark:text-white">
+                        Module
+                    </label>
+                    <select id="countries" (change)="recupMod()" formControlName="module"
+                        class="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected value="hum">Choisir un module</option>
+                        <option *ngFor="let mod of modules" [value]="mod.id">{{mod.libelle}}</option>
+                    </select>
+                </div>
+            <!-- </div> -->
+    
+            <!-- <div class="flex items-center justify-center m-4 ml-4"> -->
+
+                <div class="relative z-0 w-[70%] mb-4">
+                    <label for="countries" class="block mb-2 text-center text-2xl font-medium text-[#0f0f42] dark:text-white">
+                        Professeur
+                    </label>
+                    <select id="countries" formControlName="prof" (change)="recupCours()"
+                        class="bg-gray-50 border border-gray-300 text-black text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected value="hop">Choisir un professeur</option>
+                        <option *ngFor="let prof of profs" [value]="prof.id">{{prof.name}}</option>
+                    </select>
+                </div>
+                
+            <!-- </div> -->
+        </div>
+    
+        <div *ngIf="!classe" class="m-2 shadow-2xl flex justify-center items-center rounded bg-[#57b6f5] max-h-[99%] overflow-y-auto dark:bg-gray-800">
+            <div class="flex items-center justify-center" *ngIf="!classe">
+                <h1 class="text-2xl">Classes Non disponibles</h1>
+            </div>
+        </div>
+
+        <div *ngIf="classe" class="m-2 shadow-2xl rounded bg-[#57b6f5] max-h-[99%] overflow-y-auto dark:bg-gray-800">
+            
+            <div class="max-h-[55%] overflow-y-auto">
+                <div class="flex items-center justify-center mt-2">
+                    <h1 class="text-[#0f0f42] text-2xl">Classes disponibles</h1>
+                </div>
+                <div class="w-full max-h-[25%] overflow-y-auto flex overflow-x-auto mt-4 m-1 mb-2 shadow-2xl border-4 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                    <div *ngFor="let class of rightClasses" class="p-2 w-full m-4 bg-[#57b6f5] text-white text-xl flex flex-col gap-2 font-medium shadow-2xl dark:text-white">
+                        <div class="flex gap-2 text-2xl font-medium">
+                            <span>Nom:</span> <span>{{class.libelle}}</span>
+                        </div>
+                        <div class="flex gap-2 mt-1 text-2xl font-medium">
+                            <span>Effectif: </span> <span>{{class.effectif}}</span>
+                        </div>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="w-6 h-6 text-indigo-600 transition duration-150 ease-in-out form-checkbox"
+                                (click)="getSelectedClasses(class)">
+                            <span class="ml-2 text-white">ajouter</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+    
+            <div *ngIf="!isSalle" class="shadow-2xl m-2 max-h-[55%] overflow-y-auto">
+                <div class="flex items-center justify-center mt-2">
+                    <h1 class="text-[#0f0f42] text-2xl">Salles disponibles</h1>
+                </div>
+                <div
+                    class="w-full max-h-[30%] overflow-y-auto flex overflow-x-auto mt-4 m-2 border-4 shadow-2xl rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                    <div *ngFor="let salle of newSalles"
+                        class="mb-1 p-2 w-full m-4 bg-[#57b6f5] text-white text-xl flex flex-col gap-2 font-medium shadow-2xl dark:text-white">
+                        <div class="flex gap-2 text-2xl font-medium">
+                            <span>Nom:</span> <span>{{salle.nom}}</span>
+                        </div>
+                        <div class="flex gap-2 mt-1 text-2xl font-medium">
+                            <span>Place: </span> <span>{{salle.places}}</span>
+                        </div>
+                        <label class="flex items-center">
+                            <input [checked]="selectedSalle === salle" (change)="selectSalle(salle)" type="radio"
+                                class="w-6 h-6 text-indigo-600 transition duration-150 ease-in-out form-radio">
+                            <span class="ml-2 text-white">ajouter</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="isSalle" class="m-2 shadow-2xl mt-14">
+                <h1 class="text-2xl text-center text-red-600">Aucune salle ne peut contenir les élèves</h1>
+            </div>
+
+        </div>
+        </div>
+
+        <div style="border-top-right-radius:8rem ;" class="shadow-2xl flex items-center justify-center gap-4 bg-[#57b6f5] w-[96%] h-32 mt-4 m-2 rounded dark:bg-gray-800">
+            <div class="flex flex-col text-2xl text-center w-[25%]">
+                <label for="date" class="text-[#0f0f42]">Date de la session</label>
+                <input id="date" formControlName="date" type="date" class="p-2 text-xl border rounded">
+            </div>
+            <div class="flex flex-col text-2xl text-center w-[25%]">
+                <label for="date" class="text-[#0f0f42]">Heure de début</label>
+                <input type="time" formControlName="start" class="p-2 text-xl border rounded">
+            </div>
+            <div class="flex flex-col text-2xl text-center w-[25%]">
+                <label for="date" class="text-[#0f0f42]">Heure de fin</label>
+                <input type="time" formControlName="end" class="p-2 text-xl border rounded">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pb-[3%] shadow-2xl flex flex-row-reverse">
+        <button type="button" (click)="addSession()"
+            class="shadow-2xl focus:outline-none mt-12 text-white bg-[#57b6f5] focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-3xl px-10 py-3 mr-2 mb-2 dark:focus:ring-yellow-900">
+            Enregistrer
+        </button>
+    </div>
+
+</div>
+
