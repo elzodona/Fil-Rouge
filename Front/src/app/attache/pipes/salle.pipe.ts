@@ -1,16 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'classe'
+  name: 'salle'
 })
-export class ClassePipe implements PipeTransform {
+export class SallePipe implements PipeTransform {
 
   transform(sessions: any[], salleN: string): any[] {
     if (!salleN || salleN === 'un') {
       return sessions;
     }
 
-    return sessions.filter(session => session.classes.some((c: any) => c.libelle === salleN));  
+    return sessions.filter(session => session.salle.nom == salleN);
   }
 
 }

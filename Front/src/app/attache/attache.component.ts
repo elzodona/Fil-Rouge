@@ -26,6 +26,7 @@ export class AttacheComponent implements OnInit {
     demandes: any
     motif!: string
     sessionId: number = 0
+    affiche: boolean = false
 
 
     calendarOptions: CalendarOptions = {
@@ -119,5 +120,15 @@ export class AttacheComponent implements OnInit {
         if (modal) {
             modal.style.display = 'none';
         }
+    }
+
+    home()
+    {
+        this.affiche = true
+    }
+
+    prof()
+    {
+        this.affiche = false
     }
 }

@@ -15,12 +15,17 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cookie;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    
+    public function profs()
+    {
+        $profs = User::where('role', 'prof')->get();
+        return response()->json(UserResource::collection($profs));
+    }
 
      public function loginUser(Request $request)
     {
@@ -166,5 +171,5 @@ class UserController extends Controller
         ]);
     }
 
-    
+
 }

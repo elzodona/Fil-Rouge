@@ -23,11 +23,15 @@
             <div class="px-3 pb-4 mt-16 overflow-y-auto text-white dark:bg-gray-800">
                 <ul class="space-y-10 font-medium text-center">
                     <li
-                        class="flex items-center p-2 rounded-lg cursor-pointer dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
-                        <span class="flex-1 ml-3 text-3xl text-black whitespace-nowrap">Home</span>
+                        class="flex items-center p-2 rounded-lg cursor-pointer group">
+                        <span (click)="prof()" class="flex-1 ml-3 text-3xl text-white hover:text-[#57b6f5] hover:bg-white whitespace-nowrap">Gestion Cours</span>
                     </li>
                     <li
-                        class="flex items-center p-2 rounded-lg cursor-pointer dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
+                        class="flex items-center p-2 rounded-lg cursor-pointer group">
+                        <span (click)="home()" class="flex-1 ml-3 text-3xl text-white hover:text-[#57b6f5] hover:bg-white whitespace-nowrap">Notifications</span>
+                    </li>
+                    <li
+                        class="flex items-center p-2 rounded-lg cursor-pointer group">
                         <span (click)="deconnecter()" class="flex-1 ml-3 text-3xl whitespace-nowrap">Sign Up</span>
                     </li>
                 </ul>
@@ -48,6 +52,7 @@
 
     <div class="w-full h-screen p-4">
 
+        <ng-container *ngIf="affiche">
             <div class="flex flex-col gap-10 h-screen shadow-xl shadow-[#57b6f5]">
 
                 <div class="h-[18%] grid grid-cols-3 shadow-lg gap-2 shadow-[#57b6f5]">
@@ -118,8 +123,13 @@
                 </div>
 
             </div>
+        </ng-container>
 
-        </div>
+        <ng-container *ngIf="!affiche">
+            <app-prof></app-prof>
+        </ng-container>
+
+    </div>
 
         
 </div>
@@ -152,7 +162,7 @@
                 </button>
                 <button (click)="refuser()"
                     class="bg-[#57b6f5] text-white focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-xl text-xl font-medium px-5 py-2.5 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                    Annuler
+                    Refuser
                 </button>
             </div>
         </div>

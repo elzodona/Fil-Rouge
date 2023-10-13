@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\CoursResource;
+
 
 class UserResource extends JsonResource
 {
@@ -20,7 +22,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'specialite' => $this->specialite,
-            'photo' => $this->photo
+            'photo' => $this->photo,
+            'cour' => CoursResource::collection($this->cours)
         ];
     }
 }

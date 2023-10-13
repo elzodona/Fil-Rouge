@@ -15,6 +15,11 @@ class ModuleController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function index()
+    {
+        return Module::all();
+    }
+
     public function getMod($id)
     {
         $cours = Cour::where('annee_semestre_id', $id)->get();

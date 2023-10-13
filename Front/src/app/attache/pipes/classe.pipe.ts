@@ -10,7 +10,7 @@ export class ClassePipe implements PipeTransform {
       return sessions;
     }
 
-    return sessions.filter(session => session.classes.some((c: any) => c.libelle === salleN));  
+    return sessions.filter(session => session.classes.some((c: any) => c.libelle === salleN));
   }
 
 }

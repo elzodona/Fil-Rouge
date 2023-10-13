@@ -34,14 +34,20 @@ Route::middleware('auth:sanctum')->group(function() {
 
 });
 
+Route::get('mod/{lib}/prof/{id}', [SessionCourController::class, 'time']);
+
 Route::apiResource('filiere', FiliereController::class);
 
+Route::get('module', [ModuleController::class, 'index']);
+
 Route::get('module/{id}', [ModuleController::class, 'getMod']);
+
 Route::get('filiere/{id}/module', [ModuleController::class, 'searchModule']);
 
 Route::get('fil/{fil}/mod/{mod}', [ModuleController::class, 'filMod']);
 
 Route::get('module/{id}/prof', [ModuleController::class, 'getProf']);
+
 Route::get('sm/{sm}/module/{id}/prof', [ModuleController::class, 'searchProf']);
 
 Route::apiResource('cour', CourController::class);
@@ -57,6 +63,8 @@ Route::apiResource('session', SessionCourController::class);
 Route::post('canceledSes', [SessionCourController::class, 'annulerSession']);
 
 Route::post('/import', [UserController::class, 'import']);
+
+Route::get('/profs', [UserController::class, 'profs']);
 
 Route::get('notif', [UserController::class, 'getNotif']);
 

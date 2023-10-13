@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Module;
+use App\Models\Cour;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,4 +52,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Module::class, 'prof_modules', 'prof_id', 'module_id');
     }
+
+    public function cours()
+    {
+        return $this->hasMany(Cour::class, 'prof_id');
+    }
+
+    
 }

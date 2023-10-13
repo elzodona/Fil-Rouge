@@ -79,5 +79,19 @@ export class BreukhService {
     return this.breukh.post("http://127.0.0.1:8000/api/responseDemande", { id, res })
   }
 
+  getProfs()
+  {
+    return this.breukh.get("http://127.0.0.1:8000/api/profs")
+  }
+
+  mod()
+  {
+    return this.breukh.get("http://127.0.0.1:8000/api/module")
+  }
+
+  time(module: string, prof: number) {
+    return this.breukh.get(`http://127.0.0.1:8000/api/mod/${module}/prof/${prof}`)
+  }
+
 }
 

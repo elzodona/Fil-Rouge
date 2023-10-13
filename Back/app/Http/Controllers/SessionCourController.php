@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cour;
 use App\Models\SessionCour;
+use App\Models\Module;
 use Illuminate\Http\Request;
 use App\Http\Resources\SessionCourResource;
 use App\Http\Requests\StoreSessionCourRequest;
@@ -14,6 +15,14 @@ class SessionCourController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function time($mod, $prof)
+     {
+        $modId = Module::where('libelle', $mod)->first()->id;
+        $time = Cour::where('module_id', $modId)->where('prof_id', $prof)->where('annee_semestre_id', 1)->first();
+        return $time;
+     }
+
     public function index()
     {
         return response()->json([
