@@ -29,6 +29,7 @@ export class ProfComponent {
   time_restant: any
   time: any
   jems: boolean = false
+  month: any
 
 
   constructor(private breukh: BreukhService){}
@@ -85,17 +86,22 @@ export class ProfComponent {
   recup()
   {
     // console.log(this.selectedModule, this.idProf);
-    this.breukh.time(this.selectedModule, this.idProf).subscribe((res:any) => {
-      // console.log(res);
-      if (res != null) {
-        this.jems = true
-        this.time = res.time;
-        this.time_restant = res.time_restant
-      }else{
-        this.jems = false
-      }
-      
-    })
+    if (this.selectedModule != 'un') {
+      this.breukh.time(this.selectedModule, this.idProf).subscribe((res: any) => {
+        // console.log(res);
+        if (res != null) {
+          this.jems = true
+          this.time = res.time;
+          this.time_restant = res.time_restant
+        } else {
+          this.jems = false
+        }
+
+      })
+    }else{
+      this.jems = false
+    }
+   
   }
 
   allProfs()
@@ -103,6 +109,7 @@ export class ProfComponent {
     this.display = 'prof'
     this.allSessions = []
   }
+
 
 }
 

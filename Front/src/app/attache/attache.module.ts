@@ -10,6 +10,7 @@ import { SallePipe } from './pipes/salle.pipe';
 import { ClassePipe } from './pipes/classe.pipe';
 import { DatePipe } from './pipes/date.pipe';
 import { ModulePipe } from './pipes/module.pipe';
+import { MonthPipe } from './pipes/month.pipe';
 
 
 
@@ -20,7 +21,8 @@ import { ModulePipe } from './pipes/module.pipe';
     SallePipe,
     ClassePipe,
     DatePipe,
-    ModulePipe
+    ModulePipe,
+    MonthPipe
 
   ],
   imports: [
