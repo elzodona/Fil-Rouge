@@ -75,5 +75,13 @@ export class ListeSessionComponent {
     })
   }
 
+  deleteSession(session: any)
+  {
+    // console.log(session.id);
+    this.breukh.delete(session.id).subscribe((res:any)=>{
+      console.log(res.message);
+      this.session()
+    });
+  }
 
 }

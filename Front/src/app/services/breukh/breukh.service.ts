@@ -93,5 +93,9 @@ export class BreukhService {
     return this.breukh.get(`http://127.0.0.1:8000/api/mod/${module}/prof/${prof}`)
   }
 
+  delete(session: number) {
+    return this.breukh.delete(`http://127.0.0.1:8000/api/session/${session}`)
+  }
+
 }
 

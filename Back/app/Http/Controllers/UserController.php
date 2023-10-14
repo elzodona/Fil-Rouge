@@ -131,7 +131,7 @@ class UserController extends Controller
     {
         $file = $request->file('file');
         $eleves = Excel::toArray(new EtudiantImport, $file);
-        // $eleves = Excel::toCollection(null, $file);
+        // $eleves = Excel::import(new EtudiantImport, $file);
         // return $eleves;
 
         foreach ($eleves as $eleveData) {

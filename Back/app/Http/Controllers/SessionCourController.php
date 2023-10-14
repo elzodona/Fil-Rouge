@@ -201,8 +201,12 @@ class SessionCourController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SessionCour $sessionCour)
+    public function destroy($id)
     {
-        //
+        $session = SessionCour::where('id', $id)->first();
+        $session->delete();
+        return response()->json([
+            'message' => 'session supprimé avec succès'
+        ]);
     }
 }

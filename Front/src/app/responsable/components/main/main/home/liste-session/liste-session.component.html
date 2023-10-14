@@ -50,13 +50,16 @@
                     Heure Fin
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Durée
-                </th>
-                <th scope="col" class="px-6 py-3">
                     Classes
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Salle
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Etudiants
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
                 </th>
             </tr>
         </thead>
@@ -72,9 +75,6 @@
                     {{ convertirEnHeures(session.finished_at) }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ convertirEnHeures(session.duration) }}
-                </td>
-                <td class="px-6 py-4">
                     <select>
                         <option *ngFor="let classe of session.classes" [value]="classe.libelle">
                             {{classe.libelle}}
@@ -88,6 +88,16 @@
                     <ng-container *ngIf="session.salle">
                         {{session.salle.nom}}
                     </ng-container>
+                </td>
+                <td class="px-6 py-4 flex justify-center items-center">
+                    <span class="bg-[#57b6f5] text-xl m-1 p-3 cursor-pointer text-white rounded-xl">
+                        view
+                    </span>
+                </td>
+                <td class="px-6 py-4">
+                    <span (click)="deleteSession(session)" class="bg-[#57b6f5] text-xl m-1 p-3 cursor-pointer text-white rounded-xl">
+                        annuler
+                    </span>
                 </td>
             </tr>
         </tbody>

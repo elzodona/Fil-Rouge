@@ -60,6 +60,8 @@ Route::get('cours/{cour}/sessions', [SessionCourController::class, 'sessionByCou
 
 Route::apiResource('session', SessionCourController::class);
 
+Route::delete('session/{id}', [SessionCourController::class, 'delete']);
+
 Route::post('canceledSes', [SessionCourController::class, 'annulerSession']);
 
 Route::post('/import', [UserController::class, 'import']);
