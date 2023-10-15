@@ -15,17 +15,35 @@
     /* padding-top: 60px; */
 }
 
+.modalc {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 35%;
+    top: 25%;
+    width: 35%;
+    height: 55%;
+    /* overflow: auto; */
+    /* background-color: rgb(30, 156, 201); */
+    /* padding-top: 60px; */
+}
+
 .modal-content {
-    background-color: #fefefe;
+    background-color: white;
     height: 90%;
     margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
+    width: 100%;
+}
+
+.modal-conten {
+    background-color: white;
+    height: 70%;
     width: 100%;
 }
 
 .close {
-    color: #aaa;
+    color: black;
     float: right;
     font-size: 28px;
     font-weight: bold;

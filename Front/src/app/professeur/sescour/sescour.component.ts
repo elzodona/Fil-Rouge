@@ -92,11 +92,11 @@ export class SescourComponent {
     if (modal) {
       modal.style.display = 'block';
     }
-    console.log(event.event);
-    // const id = event.event.id;
+    //console.log(event.event);
+    const id = event.event.id;
     // console.log(this.sessions);
     
-    // this.sessionDetails = this.sessions.find((session:any) => session.id == id);
+    this.sessionDetails = this.sessions.find((session:any) => session.id == id);
     // console.log(this.sessionDetails);
   }
 
@@ -111,13 +111,17 @@ export class SescourComponent {
   {
     // console.log(session);
     this.idSession = session.id
-    const modal = this.elRef.nativeElement.querySelector('#annulationModal');
-    modal.style.display = 'block';
+    const modal = document.getElementById('annulationModal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
   }
 
   close() {
-    const modal = this.elRef.nativeElement.querySelector('#annulationModal');
-    modal.style.display = 'none';
+    const modal = document.getElementById('annulationModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
   }
 
   annulerSession() {

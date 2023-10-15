@@ -29,30 +29,28 @@
         </span>
     </div>
 
-    <div id="sessionModal" class="modalb">
+    <div id="sessionModal" class="modalb bg-white shadow-2xl">
         <div class="modal-content">
             <span class="close" (click)="closeModal()">&times;</span>
 
-            <h2 style="font-size: 2em;" class="text-center">Informations de la session</h2>
-            <hr />
+            <h2 style="font-size: 2em;" class="text-center bg-[#57b6f5] rounded-2xl text-white">Informations de la session</h2>
+
             <ng-container *ngIf="sessionDetails">
                 <div class="m-5">
-                    <p class="p-1 m-1 text-2xl">Date de la session : {{ sessionDetails.date_session }}</p>
-                    <p class="p-1 m-1 text-2xl">Heure de début : {{ convertToTime(sessionDetails.started_at) }}</p>
-                    <p class="p-1 m-1 text-2xl">Heure de fin : {{ convertToTime(sessionDetails.finished_at) }}</p>
-                    <p class="p-1 m-1 text-2xl">Salle : {{ sessionDetails.salle.nom }}</p>
-                    <p class="p-1 m-1 text-2xl">Durée : {{ convertToTime(sessionDetails.duration) }}</p>
-                    <p class="p-1 m-1 text-2xl">Classes :
+                    <p class="p-2 m-2 text-2xl ">Date de la session : {{ sessionDetails.date_session }}</p>
+                    <p class="p-2 m-2 text-2xl ">Heure de début : {{ convertToTime(sessionDetails.started_at) }}</p>
+                    <p class="p-2 m-2 text-2xl ">Heure de fin : {{ convertToTime(sessionDetails.finished_at) }}</p>
+                    <p class="p-2 m-2 text-2xl ">Salle : {{ sessionDetails.salle.nom }}</p>
+                    <p class="p-2 m-2 text-2xl ">Durée : {{ convertToTime(sessionDetails.duration) }}</p>
+                    <p class="p-2 m-2 text-2xl ">Classes :
                         <ng-container *ngFor="let classe of sessionDetails.classes">
                             {{ classe.libelle }}
                         </ng-container>
                     </p>
                 </div>
 
-                <hr />
-
                 <button (click)="annuler(sessionDetails)"
-                    class="cancel-button text-2xl float-right border-2 border-[#57b6f5] rounded-2xl mt-6 p-2 m-2">
+                    class="cancel-button text-center bg-[#57b6f5] rounded-2xl text-white mt-1 text-2xl float-right p-2 m-2">
                     Demande d'annulation
                 </button>
             </ng-container>
@@ -61,15 +59,15 @@
 
 </div>
 
-<!-- <div id="annulationModal" class="modal">
-    <div class="modal-content">
+<div id="annulationModal" class="modalc bg-white shadow-2xl">
+    <div class="modal-conten">
         <span class="close" (click)="close()">&times;</span>
-        <h2 class="m-4 text-2xl text-center">Demander l'annulation</h2>
-        <hr />
-        <textarea class="w-full h-[65%] text-xl" [(ngModel)]="motif"
-            placeholder="Entrez le motif d'annulation"></textarea>
-        <hr />
-        <button (click)="annulerSession()" class="float-right m-4 text-2xl border-2 border-blue-400">Envoyer la
-            demande</button>
+        <h2 class="m-2 bg-[#57b6f5] p-3 mt-4 rounded-2xl text-white text-2xl text-center">Demander l'annulation</h2>
+        <textarea class="w-[90%] h-[70%] m-8 text-xl" [(ngModel)]="motif"
+            placeholder="Entrez le motif d'annulation">
+        </textarea>
+        <button (click)="annulerSession()" class="cancel-button mt-2 m-2 p-2 text-center bg-[#57b6f5] rounded-2xl text-white mt-1 text-2xl float-right p-2 m-2">
+            Envoyer
+        </button>
     </div>
-</div> -->
+</div>
