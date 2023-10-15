@@ -17,7 +17,9 @@ import { ProfesseurModule } from './professeur/professeur.module';
 import { AttacheModule } from './attache/attache.module';
 import { LoginComponent } from './components/login/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { RegisterComponent } from './components/register/register.component';
     ReactiveFormsModule,
     HttpClientModule,
     FullCalendarModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([]),
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [],
   bootstrap: [AppComponent]

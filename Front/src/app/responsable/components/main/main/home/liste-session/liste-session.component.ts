@@ -24,6 +24,8 @@ export class ListeSessionComponent {
   classes: any
   selectedDuree: string = ''
   selectedDate: string = ''
+  idClasses: any[] = [];
+  eleves: any
 
 
   ngOnInit()
@@ -70,8 +72,7 @@ export class ListeSessionComponent {
     })
     this.breukh.getResources().subscribe((res:any)=>{
       this.classes = res.classes;
-      console.log(this.classes);
-      
+      //console.log(this.classes);
     })
   }
 
@@ -83,5 +84,32 @@ export class ListeSessionComponent {
       this.session()
     });
   }
+
+  viewEleve(session: any)
+  {
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+    //console.log(session.classes);
+    session.classes.forEach((element:any) => {
+      this.idClasses.push(element.id)
+    });
+    // console.log(this.idClasses);
+    this.breukh.eleves(this.idClasses).subscribe((res:any)=>{
+      // console.log(res);
+      this.eleves = res;
+    })
+    this.idClasses = []
+  }
+
+  closeModal()
+  {
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
 
 }

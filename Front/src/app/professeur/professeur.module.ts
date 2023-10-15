@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FullCalendarModule } from '@fullcalendar/angular';
 import { ProfesseurComponent } from './professeur.component';
 import { RouterModule } from '@angular/router';
 import { ProfesseurRoutingModule } from './professeur-routing.module';
 import { SescourComponent } from './sescour/sescour.component';
+
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+
 
 @NgModule({
   declarations: [
@@ -16,9 +19,10 @@ import { SescourComponent } from './sescour/sescour.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    FullCalendarModule,
     ProfesseurRoutingModule,
     RouterModule.forChild([]),
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+    
   ]
 })
 export class ProfesseurModule { }

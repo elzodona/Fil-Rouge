@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
-import { CalendarOptions } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { BreukhService } from '../services/breukh/breukh.service';
+
 
 @Component({
     selector: 'app-professeur',
@@ -23,11 +22,6 @@ export class ProfesseurComponent implements OnInit {
     heures: any
     num: number = 0
 
-
-    calendarOptions: CalendarOptions = {
-        initialView: 'dayGridMonth',
-        plugins: [dayGridPlugin]
-    };
 
     constructor(private router: Router, private breukh: BreukhService) {
         const userTo = localStorage.getItem('user');

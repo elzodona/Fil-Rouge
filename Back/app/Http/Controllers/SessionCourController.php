@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Cour;
 use App\Models\SessionCour;
 use App\Models\Module;
+use App\Models\User;
+use App\Models\Inscription;
+use App\Models\Classe;
 use Illuminate\Http\Request;
 use App\Http\Resources\SessionCourResource;
 use App\Http\Requests\StoreSessionCourRequest;
@@ -209,4 +212,23 @@ class SessionCourController extends Controller
             'message' => 'session supprimé avec succès'
         ]);
     }
+
+    public function getElevesByClasse(Request $request)
+    {
+        $eleves = [];
+        $inscriptions = [];
+        foreach ($request->classes as $value) {
+            $classe = Classe::where('id', $value)->first();
+            $insc = Inscription::where('classe_id', $classe->id)->get();
+            if (count($insc) > 0) {
+                $inscriptions = array_merge($inscriptions, $insc->pluck('eleve_id')->toArray());
+            }
+        }
+        foreach ($inscriptions as $value) {
+            $eleve = User::where('id', $value)->first();
+            $eleves [] = $eleve;
+        }
+        return $eleves;
+    }
+
 }

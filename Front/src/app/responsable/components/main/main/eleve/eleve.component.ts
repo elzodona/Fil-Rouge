@@ -46,15 +46,17 @@ export class EleveComponent {
   }
 
   save() {
-    if (this.fileSelected) {
-      this.breukh.addEtudiant(this.formData).subscribe(res => {
-        console.log(res);
-      })
-    }
-    const modal = document.getElementById('modal')
-    if (modal) {
-      modal.style.display = 'none';
-    }
+    console.log(this.formData);
+    
+    // if (this.fileSelected) {
+    //   this.breukh.addEtudiant(this.formData).subscribe(res => {
+    //     console.log(res);
+    //   })
+    // }
+    // const modal = document.getElementById('modal')
+    // if (modal) {
+    //   modal.style.display = 'none';
+    // }
   }
 
   inscrire(id: number) {

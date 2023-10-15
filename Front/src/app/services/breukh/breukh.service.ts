@@ -97,5 +97,9 @@ export class BreukhService {
     return this.breukh.delete(`http://127.0.0.1:8000/api/session/${session}`)
   }
 
+  eleves(classes: any) {
+    return this.breukh.post("http://127.0.0.1:8000/api/eleves", {classes})
+  }
+
 }
 

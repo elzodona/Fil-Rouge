@@ -71,3 +71,6 @@ Route::get('/profs', [UserController::class, 'profs']);
 Route::get('notif', [UserController::class, 'getNotif']);
 
 Route::post('/responseDemande', [UserController::class, 'responseDemande']);
+
+Route::post('eleves', [SessionCourController::class, 'getElevesByClasse']);
+

@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import { CalendarOptions } from 'fullcalendar';
+import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { isSameMonth } from 'date-fns';
+import { isSameDay } from 'date-fns/fp';
 import { BreukhService } from 'src/app/services/breukh/breukh.service';
 
 
@@ -17,22 +18,16 @@ export class SescourComponent {
   idSession!: number;
   motif: string = '';
 
-  calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin],
-    weekends: false,
-    eventClick: this.handleEventClick.bind(this)
+  viewDate:Date = new Date();
+  view: CalendarView = CalendarView.Week
+  CalendarView!: CalendarView
+  wich: string = 'week';
 
-  };
-
-  noWeeks() {
-    this.calendarOptions.weekends = !this.calendarOptions.weekends
-  }
+  activeDayIsOpen: boolean = false;
 
   constructor(private breukh: BreukhService, private elRef: ElementRef){}
 
   ngOnInit() {
-
     const cour =localStorage.getItem('cour');
     if (cour) {
       const id = JSON.parse(cour)
@@ -42,24 +37,39 @@ export class SescourComponent {
         this.sessions = res.data;
         // console.log(this.sessions);
         this.calendarEvents = this.formatSessionsForCalendar(this.sessions);
-        //console.log(this.calendarEvents);
-        
+        console.log(this.sessions);
+  
       });
     }
   }
 
+  setView(view: string)
+  {
+    this.wich = view;
+  }
+
+  dayClicked({ date }: { date: Date }) {
+    if (isSameMonth(date, this.viewDate)) {
+      if (isSameDay(this.viewDate, date) && this.activeDayIsOpen) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+      }
+      this.viewDate = date;
+    }
+  }
+
+  
   formatSessionsForCalendar(sessions: any[]): any[] {
     return sessions.map(session => {
       const startTime = new Date(session.date_session);
       const endTime = new Date(session.date_session);
-
       startTime.setSeconds(session.started_at);
-
       endTime.setSeconds(session.finished_at);
 
       return {
         id: session.id,
-        title: `Session ${session.id}`,
+        title: `${session.module}`,
         start: startTime,
         end: endTime,
         extendedProps: {
@@ -77,19 +87,16 @@ export class SescourComponent {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
   }
 
-  handleEventClick(event: any) {
-
+  eventClicked(event: any) {
     const modal = document.getElementById('sessionModal');
     if (modal) {
       modal.style.display = 'block';
     }
-
-    const title = event.event._def.title;
-    const hop = title.split(' ');
-    const id = hop[1];
+    console.log(event.event);
+    // const id = event.event.id;
     // console.log(this.sessions);
     
-    this.sessionDetails = this.sessions.find((session:any) => session.id == id);
+    // this.sessionDetails = this.sessions.find((session:any) => session.id == id);
     // console.log(this.sessionDetails);
   }
 
@@ -118,8 +125,6 @@ export class SescourComponent {
     // console.log(this.idSession, this.motif);
     this.breukh.canceled(this.idSession, this.motif).subscribe((res:any)=>{
       console.log(res.message);
-
-      
     });
   }
 

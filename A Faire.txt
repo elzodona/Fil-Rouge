@@ -1,19 +1,4 @@
-RP: {
-       send mail aux étudiants inscrits pour qu'il change leur mdp
-    }
- 
-Attaché: {
-           6- valider la liste des présences à la fin des cours (5)
-	   7- acceptée ou refusée une justification d'absence (7)
-	 }
 
-Etudiant: {
-	   8- lister cours et sessions (3)
-	   9- filtrer ses cours par (jour,semaine) et par modules (4)
-	   10- marquer sa présence sur liste d'émargement (5)
-	   11- visualiser ses absences, le nombre d'heures d'absence
-	 	cumulées durant un semestre. (6)
- 	   12- justifier (date,motif) son absence (6)
 
-}
 Absence => date, l'étudiant et la session de cours.
+
