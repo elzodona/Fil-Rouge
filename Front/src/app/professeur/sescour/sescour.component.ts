@@ -3,7 +3,7 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { isSameMonth } from 'date-fns';
 import { isSameDay } from 'date-fns/fp';
 import { BreukhService } from 'src/app/services/breukh/breukh.service';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sescour',
@@ -25,7 +25,7 @@ export class SescourComponent {
 
   activeDayIsOpen: boolean = false;
 
-  constructor(private breukh: BreukhService, private elRef: ElementRef){}
+  constructor(private breukh: BreukhService, private toastr: ToastrService){}
 
   ngOnInit() {
     const cour =localStorage.getItem('cour');
@@ -128,7 +128,8 @@ export class SescourComponent {
     this.close();
     // console.log(this.idSession, this.motif);
     this.breukh.canceled(this.idSession, this.motif).subscribe((res:any)=>{
-      console.log(res.message);
+      // console.log(res.message);
+      this.toastr.success(res.message);
     });
   }
 

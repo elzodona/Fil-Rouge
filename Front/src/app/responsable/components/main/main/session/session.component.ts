@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { BreukhService } from 'src/app/services/breukh/breukh.service';
-
+import { ToastrService } from 'ngx-toastr';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-session',
@@ -26,19 +27,21 @@ export class SessionComponent {
   newSalles: any
   selectedSalle: any;
 
+  minDate!: string
+
 
   sessionForm! : FormGroup
 
 
-  constructor(private breukh: BreukhService, private fb: FormBuilder){
+  constructor(private breukh: BreukhService, private fb: FormBuilder, private toastr: ToastrService){
 
     this.sessionForm = this.fb.group({
       semestre: ['humm'],
       module: ['hum'],
       prof: ['hop'],
-      date: [''],
-      start: [''],
-      end: ['']
+      date: ['', [this.validateDate.bind(this)]],
+      start: ['', [this.validateStartTime.bind(this)]],
+      end: ['', [this.validateEndTime.bind(this)]]
     });
 
     this.sessionForm.valueChanges.subscribe(res=>{
@@ -70,7 +73,11 @@ export class SessionComponent {
 
   ngOnInit()
   {
+    this.minDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
     this.recupSm();
+    // this.recupCours()
+    // this.sessionForm.get('date')?.setValidators(this.validateDate.bind(this));
+    // this.sessionForm.get('date')?.updateValueAndValidity();
 
     const s = localStorage.getItem('session');
     if (s) {
@@ -85,6 +92,37 @@ export class SessionComponent {
         end: so.end
       });
     }
+  }
+
+  validateDate(control: AbstractControl): ValidationErrors | null {
+    const selectedDate = new Date(control.value);
+    const dayOfWeek = selectedDate.getDay();
+    if (dayOfWeek === 6 || dayOfWeek === 0) { // 6 pour samedi, 0 pour dimanche
+      return { weekend: true };
+    }
+    return null;
+  }
+
+  validateStartTime(control: AbstractControl): ValidationErrors | null {
+    const startTime = control.value;
+    if (startTime) {
+      const hours = parseInt(startTime.split(':')[0], 10);
+      if (hours < 8 || hours >= 16) {
+        return { invalidStartTime: true };
+      }
+    }
+    return null;
+  }
+
+  validateEndTime(control: AbstractControl): ValidationErrors | null {
+    const startTime = control.value;
+    if (startTime) {
+      const hours = parseInt(startTime.split(':')[0], 10);
+      if (hours < 9 || hours >= 17) {
+        return { invalidEndTime: true };
+      }
+    }
+    return null;
   }
 
   recupMod() {
@@ -140,9 +178,10 @@ export class SessionComponent {
                 })
               }
             });
+            // console.log(this.rightClasses);
           })
         }
-        // console.log(this.rightClasses);
+        
       })
 
     }else{
@@ -205,6 +244,7 @@ export class SessionComponent {
 
     this.breukh.addSes(data).subscribe((res:any)=>{
       console.log(res);
+      this.toastr.success(res.message);
     })
     localStorage.removeItem('session')
     // this.sessionForm.reset()

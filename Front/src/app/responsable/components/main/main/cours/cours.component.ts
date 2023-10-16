@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BreukhService } from 'src/app/services/breukh/breukh.service';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cours',
@@ -21,7 +21,7 @@ export class CoursComponent {
   coursForm!: FormGroup
 
 
-  constructor(private breukh: BreukhService, private fb: FormBuilder){
+  constructor(private breukh: BreukhService, private fb: FormBuilder, private toastr: ToastrService){
     this.coursForm = this.fb.group({
       semestre: ['un'],
       filiere: ['deux'],
@@ -101,10 +101,18 @@ export class CoursComponent {
     });
   }
 
-  toggleButtonState(prof: any) {
-    prof.isAdding = !prof.isAdding;
-    this.prof_id = prof.id;
-    // console.log(this.prof_id);
+  toggleButtonState(prof: any) {    
+    if (prof.isAdding) {
+      prof.isAdding = false;
+    } else {
+      const profEnCours = this.profs.find(p => p.isAdding);
+      if (!profEnCours) {
+        prof.isAdding = true;
+        this.prof_id = prof.id
+      }
+    }
+    // console.log(prof);
+
   }
 
   addCours()
@@ -113,10 +121,11 @@ export class CoursComponent {
     data.prof = this.prof_id
     // console.log(data);
     this.breukh.addCour(data).subscribe((res:any)=>{
-      console.log(res);
+      // console.log(res);
+      this.toastr.success(res.message);
     })
     localStorage.removeItem('cours');
-    this.coursForm.reset();
+    // this.coursForm.reset();
   }
 
 }

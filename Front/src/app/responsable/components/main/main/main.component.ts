@@ -24,7 +24,6 @@ export class MainComponent {
         this.role = 'responsable pédagogique';
       }
     }
-    
   }
 
   deconnecter()

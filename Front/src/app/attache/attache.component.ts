@@ -5,7 +5,8 @@ import { initFlowbite } from 'flowbite';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { BreukhService } from '../services/breukh/breukh.service';
-import { dE } from '@fullcalendar/core/internal-common';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
     selector: 'app-attache',
@@ -26,7 +27,9 @@ export class AttacheComponent implements OnInit {
     demandes: any
     motif!: string
     sessionId: number = 0
-    affiche: boolean = false
+    affiche: string = 'sessions'
+    numero: number = 0
+    
 
 
     calendarOptions: CalendarOptions = {
@@ -34,7 +37,7 @@ export class AttacheComponent implements OnInit {
         plugins: [dayGridPlugin]
     };
 
-    constructor(private router: Router, private breukh: BreukhService) {
+    constructor(private router: Router, private breukh: BreukhService, private toastr: ToastrService) {
         const userTo = localStorage.getItem('user');
         if (userTo) {
             const user = JSON.parse(userTo);
@@ -52,6 +55,11 @@ export class AttacheComponent implements OnInit {
         initFlowbite();
         this.breukh.getNotif().subscribe((res:any)=>{
             this.demandes = res.data
+            // console.log(this.demandes);
+            if (this.demandes.length > 0) {
+                this.toastr.success('Vous avez de nouvelles notifications en cours');
+                this.numero=this.demandes.length
+            }
         })
     }
 
@@ -93,9 +101,11 @@ export class AttacheComponent implements OnInit {
             modal.style.display = 'none';
         }
         this.breukh.response(this.sessionId, 'yes').subscribe((res:any)=>{
-            console.log(res.message);
+            // console.log(res.message);
+            this.toastr.success(res.message);
             this.breukh.getNotif().subscribe((res: any) => {
                 this.demandes = res.data
+                this.numero = this.demandes.length
             })
         })
     }
@@ -107,9 +117,11 @@ export class AttacheComponent implements OnInit {
             modal.style.display = 'none';
         }
         this.breukh.response(this.sessionId, 'no').subscribe((res:any)=>{
-            console.log(res.message);
+            // console.log(res.message);
+            this.toastr.success(res.message);
             this.breukh.getNotif().subscribe((res: any) => {
                 this.demandes = res.data
+                this.numero = this.demandes.length
             })
         })
     }
@@ -124,11 +136,16 @@ export class AttacheComponent implements OnInit {
 
     home()
     {
-        this.affiche = true
+        this.affiche = 'notif'
     }
 
     prof()
     {
-        this.affiche = false
+        this.affiche = 'prof'
     }
+
+    sessions(){
+        this.affiche = 'sessions'
+    }
+
 }

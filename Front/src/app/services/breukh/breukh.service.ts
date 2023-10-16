@@ -101,5 +101,17 @@ export class BreukhService {
     return this.breukh.post("http://127.0.0.1:8000/api/eleves", {classes})
   }
 
+  toValidate() {
+    return this.breukh.get("http://127.0.0.1:8000/api/toValidate")
+  }
+
+  valider(id: number) {
+    return this.breukh.post("http://127.0.0.1:8000/api/valider", {id})
+  }
+
+  invalider(id: number) {
+    return this.breukh.post("http://127.0.0.1:8000/api/invalider", {id})
+  }
+
 }
 

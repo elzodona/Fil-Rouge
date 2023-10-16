@@ -21,6 +21,7 @@ export class ProfesseurComponent implements OnInit {
     display: boolean = true
     heures: any
     num: number = 0
+    module!: string
 
 
     constructor(private router: Router, private breukh: BreukhService) {
@@ -68,6 +69,7 @@ export class ProfesseurComponent implements OnInit {
     {
         this.display = false;
         // console.log(cour);
+        this.module = cour.module_id.libelle
         this.heures = this.convertirEnHeures(cour.time_restant)
         this.num = cour.session.length;
         localStorage.setItem('cour', JSON.stringify(cour))

@@ -22,6 +22,7 @@ import { ClassePipe } from './_helpers/pipes/sessions/classe.pipe';
 import { DureePipe } from './_helpers/pipes/sessions/duree.pipe';
 import { DatePipe } from './_helpers/pipes/sessions/date.pipe';
 
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { DatePipe } from './_helpers/pipes/sessions/date.pipe';
     ReactiveFormsModule,
     FormsModule,
     FullCalendarModule,
+    ToastrModule
   ]
 })
 export class ResponsableModule { }

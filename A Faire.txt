@@ -2,3 +2,8 @@
 
 Absence => date, l'étudiant et la session de cours.
 
+import { ToastrModule } from 'ngx-toastr';
+
+import { ToastrService } from 'ngx-toastr';
+private toastr: ToastrService
+this.toastr.success(res.message);

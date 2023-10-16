@@ -64,7 +64,7 @@
                 <div class="flex items-center justify-center mt-2">
                     <h1 class="text-[#0f0f42] text-2xl">Classes disponibles</h1>
                 </div>
-                <div class="w-full max-h-[25%] overflow-y-auto flex overflow-x-auto mt-4 m-1 mb-2 shadow-2xl border-4 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                <div class="w-full max-h-[25%] flex overflow-x-auto mt-4 m-1 mb-2 shadow-2xl border-4 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                     <div *ngFor="let class of rightClasses" class="p-2 w-full m-4 bg-[#57b6f5] text-white text-xl flex flex-col gap-2 font-medium shadow-2xl dark:text-white">
                         <div class="flex gap-2 text-2xl font-medium">
                             <span>Nom:</span> <span>{{class.libelle}}</span>
@@ -81,7 +81,7 @@
                 </div>
             </div>
     
-            <div *ngIf="!isSalle" class="shadow-2xl m-2 max-h-[55%] overflow-y-auto">
+            <div *ngIf="!isSalle" class="shadow-2xl m-2 max-h-[55%]">
                 <div class="flex items-center justify-center mt-2">
                     <h1 class="text-[#0f0f42] text-2xl">Salles disponibles</h1>
                 </div>
@@ -114,15 +114,24 @@
         <div style="border-top-right-radius:8rem ;" class="shadow-2xl flex items-center justify-center gap-4 bg-[#57b6f5] w-[96%] h-32 mt-4 m-2 rounded dark:bg-gray-800">
             <div class="flex flex-col text-2xl text-center w-[25%]">
                 <label for="date" class="text-[#0f0f42]">Date de la session</label>
-                <input id="date" formControlName="date" type="date" class="p-2 text-xl border rounded">
+                <input id="date" [min]="minDate" formControlName="date" type="date" class="p-2 text-xl border rounded">
+                <div class="text-red-600 text-md" *ngIf="sessionForm.get('date')?.hasError('weekend')">
+                    La date doit être un jour de semaine (lundi à vendredi).
+                </div>
             </div>
             <div class="flex flex-col text-2xl text-center w-[25%]">
                 <label for="date" class="text-[#0f0f42]">Heure de début</label>
                 <input type="time" formControlName="start" class="p-2 text-xl border rounded">
+                <div class="text-red-600 text-md" *ngIf="sessionForm.get('start')?.hasError('invalidStartTime')">
+                    L'heure de début doit être entre 08h et 16h.
+                </div>
             </div>
             <div class="flex flex-col text-2xl text-center w-[25%]">
                 <label for="date" class="text-[#0f0f42]">Heure de fin</label>
                 <input type="time" formControlName="end" class="p-2 text-xl border rounded">
+                <div class="text-red-600 text-md" *ngIf="sessionForm.get('end')?.hasError('invalidEndTime')">
+                    L'heure de fin doit être entre 09h et 17h.
+                </div>
             </div>
         </div>
 

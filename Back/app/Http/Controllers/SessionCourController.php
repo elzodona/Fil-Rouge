@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Inscription;
 use App\Models\Classe;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Http\Resources\SessionCourResource;
 use App\Http\Requests\StoreSessionCourRequest;
 use App\Http\Requests\UpdateSessionCourRequest;
@@ -39,9 +40,6 @@ class SessionCourController extends Controller
         return SessionCourResource::collection($sessions);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function annulerSession(Request $request)
     {
         $session = SessionCour::find($request->id);
@@ -53,11 +51,16 @@ class SessionCourController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        $cour = Cour::where('prof_id', $request->prof)->where('module_id', $request->module)->where('annee_semestre_id', $request->semestre)->first();
+
+        if ($cour->time_restant == 0) {
+            return response()->json([
+                'message' => 'Ce cours est terminé'
+            ]);
+        }
+
         $date = $request->date;
 
         $dateAujourdhui = now()->toDateString();
@@ -69,31 +72,26 @@ class SessionCourController extends Controller
         $end_time = strtotime('1970-01-01'. ' '. $request->end);
         
         $minMax = 60 * 60;
-        // return response()->json([$minMax, ($end_time - $start_time)]);
+        $duration = $end_time - $start_time;
 
-        if ($date == $dateAujourdhui) {
-            // return response()->json([$heureActu, $start_time]);
-            if ($start_time <= $heureActu) {
-                return response()->json(['message' => "L'heure de la session ne doit pas etre antérieur à l'heure actuelle"]);
-            }
+        if ($cour->time_restant < $duration) {
+            return response()->json([
+                'message' => "La durée de cette session dépasse le nombre d'heures restantes"
+            ]);
+        }
+
+        // if ($date == $dateAujourdhui) {
+        //     if ($start_time <= $heureActu) {
+        //         return response()->json(['message' => "L'heure de la session ne doit pas etre antérieur à l'heure actuelle"]);
+        //     }
+        // }
+
+        if ($end_time < $start_time) {
+            return response()->json(['message' => "L'heure de fin doit pas etre antérieur à l'heure de début"]);
         }
 
         if (($end_time - $start_time) < $minMax) {
             return response()->json(['message' => "Une session doit durer au maximum 1h"]);
-        }
-        
-        // return response()->json([$date, $dateAujourdhui]);
-
-        
-        $duration = $end_time - $start_time;
-
-        // $duree = date('H:i:s', $duration);
-        // return response()->json($duree);
-
-        if ($start_time >= $end_time) {
-            return response()->json([
-                'message' => "L'heure de fin doit etre postérieur"
-            ]);
         }
 
         $pro = Cour::where('prof_id', $request->prof)->get();
@@ -102,20 +100,19 @@ class SessionCourController extends Controller
             $profDispo = SessionCour::where('cour_id', $value['id'])->where('date_session', $date)->get();
             
             foreach ($profDispo as $key ) {
-                // return $key->started_at;
                 if ($start_time == $key->started_at) {
                     return response()->json([
-                        'message' => 'Ce prof n\'est pas disponible',
+                        'message' => 'Ce prof a déjà un cours qui commence à cette heure de début',
                     ]);
                 }
                 if ($start_time > $key->started_at && $start_time < $key->finished_at) {
                     return response()->json([
-                        'message' => 'Ce prof n\'est pas disponible',
+                        'message' => 'Ce prof a déjà un cours à cet heure',
                     ]);
                 }
                 if ($end_time < $key->finished_at && $end_time > $key->start_time) {
                     return response()->json([
-                        'message' => 'Ce prof n\'est pas disponible',
+                        'message' => 'Ce prof a déjà un cours à cet heure',
                     ]);
                 }
             }
@@ -143,19 +140,6 @@ class SessionCourController extends Controller
             }
         }
 
-        $cour = Cour::where('prof_id', $request->prof)->where('module_id', $request->module)->where('annee_semestre_id', $request->semestre)->first(); 
-
-        if ($cour->time_restant == 0) {
-            return response()->json([
-                'message' => 'Ce cours est terminé'
-            ]);
-        }
-        if ($cour->time_restant < $duration){
-            return response()->json([
-                 'message' => "L'heure est insuffisante"
-            ]);
-        }
-
         $session = SessionCour::create([
             'date_session' => $request->date,
             'started_at' => $start_time,
@@ -177,33 +161,6 @@ class SessionCourController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(SessionCour $sessionCour)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SessionCour $sessionCour)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSessionCourRequest $request, SessionCour $sessionCour)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $session = SessionCour::where('id', $id)->first();
@@ -231,4 +188,47 @@ class SessionCourController extends Controller
         return $eleves;
     }
 
+    public function sessionAValider()
+    {
+        $dateAujourdhui = now()->toDateString();
+        $sessionsEnCours = SessionCour::where('validé', 'pas encore')
+        ->where('date_session', $dateAujourdhui)
+            ->get();
+        // dd($sessionsEnCours);
+        $heureActuelle = now();
+        $tab = [];
+        foreach ($sessionsEnCours as $session) {
+            $heureFin = gmdate('H:i:s', $session->finished_at);
+
+            $heureFinCarbon = Carbon::createFromFormat('H:i:s', $heureFin);
+            $differenceEnMinutes = $heureActuelle->diffInMinutes($heureFinCarbon);
+            // dd($differenceEnMinutes);
+            if ($differenceEnMinutes > 5) {
+                $tab[] = $session;
+            }
+        }
+        return response()->json(SessionCourResource::collection($tab));
+
+    }
+
+    public function valider(Request $request)
+    {
+        $session = SessionCour::find($request->id);
+        $session->update(['validé' => 'oui']);
+
+        return response()->json([
+            'message' => 'Session validée avec succès !!',
+        ]);
+    }
+
+    public function invalider(Request $request)
+    {
+        $session = SessionCour::find($request->id);
+        $session->update(['validé' => 'non']);
+
+        return response()->json([
+            'message' => 'Session validée avec succès !!',
+            'session' => $session
+        ]);
+    }
 }

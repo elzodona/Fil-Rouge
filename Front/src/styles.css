@@ -3,4 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* styles.scss */
+@import 'ngx-toastr/toastr';
+
+.toast-message {
+    font-size: 2em;
+}

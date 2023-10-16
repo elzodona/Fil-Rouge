@@ -8,6 +8,7 @@ import { SescourComponent } from './sescour/sescour.component';
 
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
     ProfesseurRoutingModule,
     RouterModule.forChild([]),
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
+import { ToastrModule } from 'ngx-toastr';
 
 import { RouterModule } from '@angular/router';
 
@@ -22,11 +23,12 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +44,9 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
     FullCalendarModule,
     RouterModule.forRoot([]),
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+    }),
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [],

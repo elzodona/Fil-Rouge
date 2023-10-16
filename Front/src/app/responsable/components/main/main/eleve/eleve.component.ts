@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { BreukhService } from 'src/app/services/breukh/breukh.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-eleve',
@@ -17,7 +19,7 @@ export class EleveComponent {
 
 
 
-  constructor(private breukh: BreukhService){}
+  constructor(private breukh: BreukhService, private toastr: ToastrService){}
 
   ngOnInit()
   {
@@ -28,8 +30,7 @@ export class EleveComponent {
   {
     this.breukh.getResources().subscribe((res:any)=>{
       this.classes = res.classes
-      console.log(this.classes);
-      
+      // console.log(this.classes);
     })
   }
 
@@ -48,15 +49,17 @@ export class EleveComponent {
   save() {
     console.log(this.formData);
     
-    // if (this.fileSelected) {
-    //   this.breukh.addEtudiant(this.formData).subscribe(res => {
-    //     console.log(res);
-    //   })
-    // }
-    // const modal = document.getElementById('modal')
-    // if (modal) {
-    //   modal.style.display = 'none';
-    // }
+    if (this.fileSelected) {
+      this.breukh.addEtudiant(this.formData).subscribe((res:any) => {
+        // console.log(res);
+        this.toastr.success(res.message);
+        this.addStudent();
+      })
+    }
+    const modal = document.getElementById('modal')
+    if (modal) {
+      modal.style.display = 'none';
+    }
   }
 
   inscrire(id: number) {

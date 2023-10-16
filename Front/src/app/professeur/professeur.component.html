@@ -54,21 +54,21 @@
                     <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
                         <div class="">
                             <p style="font-size: 2.5em;" class="text-center">Annee Scolaire</p>
-                            <p style="font-size: 1.5em;" class="text-center">2023/2024</p>
+                            <p style="font-size: 2em;" class="text-center">2023/2024</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
                         <div class="">
                             <p style="font-size: 2.5em;" class="text-center">Nombre de cours</p>
-                            <p style="font-size: 1.5em;" class="text-center">{{count}}</p>
+                            <p style="font-size: 2em;" class="text-center">{{count}}</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
                         <div class="">
                             <p style="font-size: 2.5em;" class="text-center">Heures total</p>
-                            <p style="font-size: 1.5em;" class="text-center">{{ convertirEnHeures(times) }}</p>
+                            <p style="font-size: 2em;" class="text-center">{{ convertirEnHeures(times) }}</p>
                         </div>
                     </div>
 
@@ -118,31 +118,31 @@
                     <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
                         <div class="">
                             <p style="font-size: 2.5em;" class="text-center">Annee Scolaire</p>
-                            <p style="font-size: 1.5em;" class="text-center">2023/2024</p>
+                            <p style="font-size: 2em;" class="text-center">2023/2024</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+                        <div class="">
+                            <p style="font-size: 2.5em;" class="text-center">Module</p>
+                            <p style="font-size: 2em;" class="text-center">{{module}}</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
                         <div class="">
                             <p style="font-size: 2.5em;" class="text-center">Nombre de sesions</p>
-                            <p style="font-size: 1.5em;" class="text-center">{{num}}</p>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
-                        <div class="">
-                            <p style="font-size: 2.5em;" class="text-center">Heures total</p>
-                            <p style="font-size: 1.5em;" class="text-center">{{ heures }}</p>
+                            <p style="font-size: 2em;" class="text-center">{{num}}</p>
                         </div>
                     </div>
 
                 </div>
 
                 <div class="h-[75%] w-full overflow-y-auto shadow-2xl shadow-[#57b6f5]">
-                    <app-sescour></app-sescour>
                     <button class="rounded-2xl m-2 p-3 shadow-2xl shadow-[#57b6f5] border-2 border-[#57b6f5] text-black"
                         (click)="allCours()">retour au cours
                     </button>
+                    <app-sescour></app-sescour>
                 </div>
 
             </div>

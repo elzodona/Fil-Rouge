@@ -49,13 +49,12 @@ class CourController extends Controller
         $hours = intval($request->timing);
         $seconds = $hours * 3600;
 
-        $existingCours = Cour::where('module_id', $request->module)->where('annee_semestre_id', $request->semestre)->first();
+        $existingCours = Cour::where('module_id', $request->module)->where('prof_id', $request->prof)->where('annee_semestre_id', $request->semestre)->first();
 
         if ($existingCours) {
             return response()->json([
-                'status' => false,
-                'message' => 'Ce module_id a déjà planifié dans cet semestre.'
-            ], 400);
+                'message' => 'Vous avez déjà planifié ce professeur à ce module dans cet semestre.'
+            ]);
         }
 
         $id = AnneeSemestre::where('semestre_id', $request->semestre)->first()->id;

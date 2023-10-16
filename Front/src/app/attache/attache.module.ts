@@ -12,6 +12,8 @@ import { DatePipe } from './pipes/date.pipe';
 import { ModulePipe } from './pipes/module.pipe';
 import { MonthPipe } from './pipes/month.pipe';
 
+import { ToastrModule } from 'ngx-toastr';
+import { SesdoneComponent } from './prof/sesdone/sesdone.component';
 
 
 @NgModule({
@@ -22,13 +24,14 @@ import { MonthPipe } from './pipes/month.pipe';
     ClassePipe,
     DatePipe,
     ModulePipe,
-    MonthPipe
-
+    MonthPipe,
+    SesdoneComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule,
     AttacheRoutingModule,
     RouterModule.forChild([])
   ]

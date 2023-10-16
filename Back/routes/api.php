@@ -74,3 +74,9 @@ Route::post('/responseDemande', [UserController::class, 'responseDemande']);
 
 Route::post('eleves', [SessionCourController::class, 'getElevesByClasse']);
 
+Route::get('toValidate', [SessionCourController::class, 'sessionAValider']);
+
+Route::post('valider', [SessionCourController::class, 'valider']);
+
+Route::post('invalider', [SessionCourController::class, 'invalider']);
+
