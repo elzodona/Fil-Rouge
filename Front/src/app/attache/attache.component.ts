@@ -64,6 +64,7 @@ export class AttacheComponent implements OnInit {
     }
 
     deconnecter() {
+        this.toastr.success('Bye Bye petit papillon');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         this.router.navigateByUrl('/login');

@@ -49,6 +49,7 @@ export class SescourComponent {
   }
 
   dayClicked({ date }: { date: Date }) {
+    // console.log('deux');
     if (isSameMonth(date, this.viewDate)) {
       if (isSameDay(this.viewDate, date) && this.activeDayIsOpen) {
         this.activeDayIsOpen = false;
@@ -88,6 +89,7 @@ export class SescourComponent {
   }
 
   eventClicked(event: any) {
+    // console.log('un');
     const modal = document.getElementById('sessionModal');
     if (modal) {
       modal.style.display = 'block';

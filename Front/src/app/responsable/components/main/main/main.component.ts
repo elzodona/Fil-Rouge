@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class MainComponent {
   role: string = ''
   img: string = ''
 
-  constructor(private router: Router){
+  constructor(private router: Router, private toastr: ToastrService){
     const userTo = localStorage.getItem('user');
     if (userTo) {
       const user = JSON.parse(userTo);
@@ -28,6 +29,7 @@ export class MainComponent {
 
   deconnecter()
   {
+    this.toastr.success('Bye Bye petit papillon !!');
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     localStorage.removeItem('cours');

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { BreukhService } from '../services/breukh/breukh.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ProfesseurComponent implements OnInit {
     module!: string
 
 
-    constructor(private router: Router, private breukh: BreukhService) {
+    constructor(private toastr: ToastrService, private router: Router, private breukh: BreukhService) {
         const userTo = localStorage.getItem('user');
         if (userTo) {
             const user = JSON.parse(userTo);
@@ -60,6 +61,7 @@ export class ProfesseurComponent implements OnInit {
     }
 
     deconnecter() {
+        this.toastr.success('Bye Bye petit papillon');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         this.router.navigateByUrl('/login');
