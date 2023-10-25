@@ -11,10 +11,12 @@ import { ToastrService } from 'ngx-toastr';
 export class SesdoneComponent {
 
   toValidate: any[] = [];
+  absents: any
+
 
   constructor(private breukh: BreukhService, private toastr: ToastrService){}
 
-  ngOnInit() 
+  ngOnInit()
   {
     this.breukh.toValidate().subscribe((res: any) => {
       this.toValidate = res;
@@ -58,5 +60,21 @@ export class SesdoneComponent {
     })
   }
 
+  details(det: any)
+  {
+    console.log(det);
+    this.absents = det
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+
+  closeModal() {
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
 
 }

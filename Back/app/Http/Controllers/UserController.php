@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Classe;
+use App\Models\Cour;
 use App\Models\SessionCour;
 use App\Http\Resources\SessionCourResource;
 use App\Models\Inscription;
@@ -15,7 +17,10 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cookie;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\CoursResource;
 use App\Http\Resources\UserResource;
+use App\Models\Absence;
+use App\Models\SessionClasse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -127,7 +132,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function import(Request $request) 
+    public function import(Request $request)
     {
         $file = $request->file('file');
         $eleves = Excel::toArray(new EtudiantImport, $file);
@@ -150,7 +155,7 @@ class UserController extends Controller
                 $classe->increment('effectif');
             }
         }
-        
+
         return response()->json([
             'message' => 'Elèves créés avec succès !!!'
         ]);
@@ -169,6 +174,86 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Réponse envoyée avec succès !!'
         ]);
+    }
+
+    public function coursStudent($id)
+    {
+        $elId = User::where('id', $id)->first()->id;
+        $clasId = Inscription::where('eleve_id', $elId)->first()->classe_id;
+        $sessions = SessionClasse::where('classe_id', $clasId)->get();
+        $sesId = $sessions->pluck('session_cour_id')->unique()->values();
+        // return $sesId;
+
+        $cours = [];
+        foreach ($sesId as $value) {
+            $ses = SessionCour::where('id', $value)->first();
+            if ($ses) {
+                $cours[] = $ses->cour_id;
+            }
+        }
+        $coursSansDoublons = array_unique($cours);
+        $coursSansDoublons = array_values($coursSansDoublons);
+        // return $coursSansDoublons;
+
+        $allCours=[];
+        foreach ($coursSansDoublons as $value) {
+            $c = Cour::where('id', $value)->first();
+            $allCours[]=new CoursResource($c);
+        }
+        return $allCours;
+
+    }
+
+    public function sessionDone($id)
+    {
+        $dateAujourdhui = now()->toDateString();
+        $sessionsEnCours = SessionCour::where('validé', 'pas encore')
+        ->where('date_session', $dateAujourdhui)
+            ->get();
+        // dd($sessionsEnCours);
+        $heureActuelle = now();
+        $tab = [];
+        foreach ($sessionsEnCours as $session) {
+            $heureDebut = gmdate('H:i:s', $session->started_at);
+
+            $heureFinCarbon = Carbon::createFromFormat('H:i:s', $heureDebut);
+            $differenceEnMinutes = $heureActuelle->diffInMinutes($heureFinCarbon);
+            // dd($differenceEnMinutes);
+
+            $already = Absence::where('eleve_id', $id)->where('session_cour_id', $session->id)->first();
+            if (!$already) {
+                if ($differenceEnMinutes >= 30) {
+                    $tab[] = $session;
+                }
+            }
+        }
+        return response()->json(SessionCourResource::collection($tab));
+    }
+
+    public function getAbsences($id)
+    {
+        $elId = User::where('id', $id)->first()->id;
+        $clasId = Inscription::where('eleve_id', $elId)->first()->classe_id;
+        $sessions = SessionClasse::where('classe_id', $clasId)->get();
+        $sesId = $sessions->pluck('session_cour_id')->unique()->values();
+        // return $sesId;
+
+        $sess = [];
+        foreach ($sesId as $value) {
+            $ses = SessionCour::where('id', $value)->first();
+            if ($ses) {
+                $sess[] = new SessionCourResource($ses);
+            }
+        }
+        // return $sess;
+        $absences=[];
+        foreach ($sess as $value) {
+            $already = Absence::where('eleve_id', $id)->where('session_cour_id', $value->id)->first();
+            if (!$already) {
+                $absences [] = new SessionCourResource($value);
+            }
+        }
+        return $absences;
     }
 
 

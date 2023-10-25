@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsenceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourController;
@@ -8,16 +9,6 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\SessionCourController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 
 Route::post('auth/login', [UserController::class, 'loginUser']);
@@ -79,4 +70,12 @@ Route::get('toValidate', [SessionCourController::class, 'sessionAValider']);
 Route::post('valider', [SessionCourController::class, 'valider']);
 
 Route::post('invalider', [SessionCourController::class, 'invalider']);
+
+Route::get('/eleve/{id}/cours', [UserController::class, 'coursStudent']);
+
+Route::get('/eleve/{id}/absences', [UserController::class, 'getAbsences']);
+
+Route::post('/absence', [AbsenceController::class, 'storeAbsence']);
+
+Route::get('eleve/{id}/sessionDone', [UserController::class, 'sessionDone']);
 

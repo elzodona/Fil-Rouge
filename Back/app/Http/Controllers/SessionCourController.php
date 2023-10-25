@@ -8,11 +8,14 @@ use App\Models\Module;
 use App\Models\User;
 use App\Models\Inscription;
 use App\Models\Classe;
+use App\Models\SessionClasse;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Resources\SessionCourResource;
 use App\Http\Requests\StoreSessionCourRequest;
 use App\Http\Requests\UpdateSessionCourRequest;
+use App\Http\Resources\UserResource;
+use App\Models\Absence;
 
 class SessionCourController extends Controller
 {
@@ -70,7 +73,7 @@ class SessionCourController extends Controller
 
         $start_time = strtotime('1970-01-01'. ' '. $request->start);
         $end_time = strtotime('1970-01-01'. ' '. $request->end);
-        
+
         $minMax = 60 * 60;
         $duration = $end_time - $start_time;
 
@@ -95,10 +98,10 @@ class SessionCourController extends Controller
         }
 
         $pro = Cour::where('prof_id', $request->prof)->get();
-        
+
         foreach ($pro as $value) {
             $profDispo = SessionCour::where('cour_id', $value['id'])->where('date_session', $date)->get();
-            
+
             foreach ($profDispo as $key ) {
                 if ($start_time == $key->started_at) {
                     return response()->json([
@@ -119,7 +122,7 @@ class SessionCourController extends Controller
         }
 
         $test = SessionCour::where('date_session', $date)->where('salle_id', $request->salle)->get();
-        
+
         if (count($test) > 0) {
             foreach ($test as $value) {
                 if ($start_time == $value['started_at']) {
@@ -148,9 +151,9 @@ class SessionCourController extends Controller
             'salle_id' => $request->salle ? $request->salle : null,
             'cour_id' => $cour->id
         ]);
-        
+
         $session->classes()->attach($request->classes);
-        
+
         $cour->decrement('time_restant', $duration);
 
         return response()->json([
@@ -197,18 +200,33 @@ class SessionCourController extends Controller
         // dd($sessionsEnCours);
         $heureActuelle = now();
         $tab = [];
+        $eleves = [];
+
         foreach ($sessionsEnCours as $session) {
             $heureFin = gmdate('H:i:s', $session->finished_at);
 
             $heureFinCarbon = Carbon::createFromFormat('H:i:s', $heureFin);
             $differenceEnMinutes = $heureActuelle->diffInMinutes($heureFinCarbon);
             // dd($differenceEnMinutes);
+
             if ($differenceEnMinutes > 5) {
-                $tab[] = $session;
+                $ses = SessionClasse::where('session_cour_id', $session->id)->get()->pluck('classe_id');
+                $els = Inscription::whereIn('classe_id', $ses)->get()->pluck('eleve_id');
+                // return $els;
+                foreach ($els as $value) {
+                    $test = Absence::where('eleve_id', $value)->where('session_cour_id', $session->id)->first();
+                    // return $test;
+                    if (!$test) {
+                        $el = User::where('id', $value)->first();
+                        $eleves[]=$el;
+                    }
+                }
+
+                $tab[] = ['absents'=>$eleves, 'session'=> new SessionCourResource($session) ];
             }
         }
-        return response()->json(SessionCourResource::collection($tab));
-
+        // return $eleves;
+        return response()->json($tab);
     }
 
     public function valider(Request $request)
@@ -217,7 +235,7 @@ class SessionCourController extends Controller
         $session->update(['validé' => 'oui']);
 
         return response()->json([
-            'message' => 'Session validée avec succès !!',
+            'message' => 'Session validée !!',
         ]);
     }
 
@@ -227,8 +245,11 @@ class SessionCourController extends Controller
         $session->update(['validé' => 'non']);
 
         return response()->json([
-            'message' => 'Session validée avec succès !!',
+            'message' => 'Session invalidée !!',
             'session' => $session
         ]);
     }
+
+
 }
+

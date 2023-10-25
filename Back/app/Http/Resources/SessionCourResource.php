@@ -23,6 +23,7 @@ class SessionCourResource extends JsonResource
             'duration' => $this->duration,
             'etat' => $this->etat,
             'canceled' => $this->canceled,
+            'cour'=> $this->cour,
             'motif' => $this->motif,
             'prof' => $this->cour->prof->name,
             'module' => $this->cour->module->libelle,
