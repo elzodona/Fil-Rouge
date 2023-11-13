@@ -29,7 +29,7 @@ export class MainComponent {
 
   deconnecter()
   {
-    this.toastr.success('Bye Bye petit papillon !!');
+    this.toastr.success('See you soon!');
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     localStorage.removeItem('cours');
@@ -58,5 +58,6 @@ export class MainComponent {
     this.child = 'eleve';
     // console.log(this.child)
   }
+
 
 }

@@ -35,7 +35,7 @@ export class BreukhService {
   existingCours(sm: number, modId: number, profId: number) {
     return this.breukh.get(`http://127.0.0.1:8000/api/sm/${sm}/module/${modId}/prof/${profId}`)
   }
-  
+
   profSession(sm: number, id: number) {
     return this.breukh.get(`http://127.0.0.1:8000/api/sm/${sm}/module/${id}/prof`)
   }
@@ -113,5 +113,8 @@ export class BreukhService {
     return this.breukh.post("http://127.0.0.1:8000/api/invalider", {id})
   }
 
+  eles(id: number) {
+    return this.breukh.get(`http://127.0.0.1:8000/api/classe/${id}/eleves`)
+  }
 }
 

@@ -16,6 +16,7 @@ export class EleveComponent {
   id: any;
   formData = new FormData();
   fileSelected = false;
+  eleve: any
 
 
 
@@ -48,7 +49,7 @@ export class EleveComponent {
 
   save() {
     console.log(this.formData);
-    
+
     if (this.fileSelected) {
       this.breukh.addEtudiant(this.formData).subscribe((res:any) => {
         // console.log(res);
@@ -62,6 +63,19 @@ export class EleveComponent {
     }
   }
 
+  eleves(id: number)
+  {
+    this.eleve = [];
+    console.log(id);
+    this.breukh.eles(id).subscribe(res=>{
+      this.eleve = res;
+    })
+    const modal = document.getElementById('modalb')
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+
   inscrire(id: number) {
     // console.log(id);
     this.id = id;
@@ -71,12 +85,19 @@ export class EleveComponent {
     }
   }
 
+  closeModa() {
+    const modal = document.getElementById('modalb')
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
   closeModal()
   {
     const modal = document.getElementById('modal')
     if (modal) {
       modal.style.display = 'none';
-    }    
+    }
   }
 
 

@@ -9,7 +9,7 @@
             </p>
         </div>
     </div>
-    
+
     <div class="max-h-[70%] overflow-y-auto grid grid-cols-1 shadow-xl shadow-[#57b6f5] md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div *ngFor="let classe of classes"
                 class="m-4 flex flex-col bg-white shadow-xl shadow-[#57b6f5] p-4 mb-4 rounded-lg">
@@ -21,8 +21,8 @@
                 </h2>
                 <div class="flex justify-between mt-4">
                     <div class="flex justify-between mt-3">
-                        <p class="text-xl">effectifs: <span
-                            class="bg-[#57b6f5] text-white rounded-lg p-2 m-1 border border-white">{{classe.effectif}}</span></p>
+                        <p (click)="eleves(classe.id)" class="cursor-pointer text-xl bg-[#57b6f5] text-white rounded-lg p-2 m-1 border border-white">etudiants <span
+                            class="bg-[#57b6f5] text-white rounded-lg p-2 m-1 border-2 border-white">{{classe.effectif}}</span></p>
                     </div>
                     <button (click)="inscrire(classe.id)"
                         class="m-2 p-2 text-right shadow-2xl text-white rounded-2xl bg-[#57b6f5]">
@@ -35,7 +35,45 @@
 
 </div>
 
+<div id="modalb" style="margin-left: 20rem; display: none; margin-top: -45rem">
+  <div class="modal-overlay absolute inset-0 bg-gray-500 opacity-75"></div>
 
+  <div class="modal-container bg-white dark:bg-gray-900 dark:text-gray-400 mx-auto p-6 rounded shadow-lg z-50">
+    <div class="relative overflow-x-auto">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-2xl text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              Name
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Email
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ele of eleve" class="bg-white border-b text-xl dark:bg-gray-900 dark:border-gray-700">
+            <td class="px-6 py-4">
+              {{ ele.name }}
+            </td>
+            <td class="px-6 py-4">
+              {{ ele.email }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button (click)="closeModa()" class="modal-close absolute top-0 right-0 bg-transparent p-4">
+      <svg class="fill-current text-gray-700 dark:text-gray-300" xmlns="http://www.w3.org/2000/svg" width="18"
+        height="18" viewBox="0 0 18 18">
+        <path
+          d="M12.72 5.29a1 1 0 0 1 1.41 1.41l-4.58 4.59 4.58 4.59a1 1 0 1 1-1.41 1.41l-4.59-4.58-4.59 4.58a1 1 0 0 1-1.41-1.41l4.58-4.59-4.58-4.59a1 1 0 1 1 1.41-1.41l4.59 4.58 4.59-4.58z">
+        </path>
+      </svg>
+    </button>
+  </div>
+</div>
 
 <div id="modal" tabindex="-1" aria-hidden="true" style="margin-left: 20rem; margin-top: -45rem"
     class="w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">

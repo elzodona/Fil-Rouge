@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { ResponsableModule } from './responsable/responsable.module';
-import { EleveModule } from './eleve/eleve.module';
 import { ProfesseurModule } from './professeur/professeur.module';
 import { AttacheModule } from './attache/attache.module';
 import { LoginComponent } from './components/login/login/login.component';
@@ -35,7 +34,6 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
     CommonModule,
     AppRoutingModule,
     ResponsableModule,
-    EleveModule,
     ProfesseurModule,
     AttacheModule,
     FormsModule,

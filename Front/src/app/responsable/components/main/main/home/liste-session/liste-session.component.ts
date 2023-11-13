@@ -4,6 +4,7 @@ import { SallePipe } from 'src/app/responsable/_helpers/pipes/sessions/salle.pip
 import { ClassePipe } from 'src/app/responsable/_helpers/pipes/sessions/classe.pipe';
 import { DureePipe } from 'src/app/responsable/_helpers/pipes/sessions/duree.pipe';
 import { DatePipe } from 'src/app/responsable/_helpers/pipes/sessions/date.pipe';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ListeSessionComponent {
     this.salles()
   }
 
-  constructor(private breukh: BreukhService){}
+  constructor(private breukh: BreukhService, private toastr: ToastrService){}
 
   session()
   {
@@ -45,7 +46,7 @@ export class ListeSessionComponent {
       this.breukh.sessCour(session).subscribe((res:any)=>{
         this.sessions = res.data
         // console.log(this.sessions);
-                
+
       });
     }
   }
@@ -80,7 +81,8 @@ export class ListeSessionComponent {
   {
     // console.log(session.id);
     this.breukh.delete(session.id).subscribe((res:any)=>{
-      console.log(res.message);
+      // console.log(res.message);
+      this.toastr.success('la session est annulée !!');
       this.session()
     });
   }

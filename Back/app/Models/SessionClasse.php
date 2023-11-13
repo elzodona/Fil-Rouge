@@ -6,6 +6,7 @@ use App\Models\Classe;
 use App\Models\SessionCour;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SessionClasse extends Model
 {
@@ -22,5 +23,5 @@ class SessionClasse extends Model
     {
         return $this->belongsTo(Classe::class);
     }
-    
+
 }

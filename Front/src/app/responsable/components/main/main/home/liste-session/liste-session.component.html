@@ -99,16 +99,14 @@
                 </tr>
             </tbody>
         </table>
+
     </div>
 
-    <nav aria-label="Page navigation example" class="float-right shadow-md shadow-[#57b6f5] mt-16 rounded">
-        <ul class="pagination flex justify-center items-center text-2xl gap-16 h-10 bg-[#f0be67]">
-            <!-- <li style="cursor: pointer;" *ngFor="let link of links" (click)="toPaginate(link.url)"
-                [class.active]="link.active" class="page-item p-1"><button class="page-link"
-                    [innerHtml]="link.label"></button>
-            </li> -->
-        </ul>
-    </nav>
+    <div class="flex justify-end mt-4 mb-4 mr-10">
+      <button disabled class="bg-[#57b6f5] text-white px-2 py-1 rounded-xl mr-2">Précédent</button>
+      <button class="bg-[#57b6f5] text-white px-2 py-1 rounded-xl mr-2">1</button>
+      <button disabled class="bg-[#57b6f5] text-white px-2 py-1 rounded-xl">Suivant</button>
+    </div>
 
     </div>
 

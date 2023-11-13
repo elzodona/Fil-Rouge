@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('auth/logout', [UserController::class, 'logout']);
     Route::delete('auth/delete/{userId}', [UserController::class, 'deleteUser']);
 
+    
 });
 
 Route::get('mod/{lib}/prof/{id}', [SessionCourController::class, 'time']);
@@ -78,4 +79,12 @@ Route::get('/eleve/{id}/absences', [UserController::class, 'getAbsences']);
 Route::post('/absence', [AbsenceController::class, 'storeAbsence']);
 
 Route::get('eleve/{id}/sessionDone', [UserController::class, 'sessionDone']);
+
+Route::get('/eleve/{id}/absents', [UserController::class, 'numAbsences']);
+
+Route::get('/classe/{id}/eleves', [UserController::class, 'getElevesByClasses']);
+
+Route::get('eleve/{id}/sessionC', [UserController::class, 'sessionEnCours']);
+
+
 

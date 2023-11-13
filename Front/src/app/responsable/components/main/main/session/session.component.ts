@@ -44,13 +44,13 @@ export class SessionComponent {
       end: ['', [this.validateEndTime.bind(this)]]
     });
 
-    this.sessionForm.valueChanges.subscribe(res=>{
-      this.recupCours()
-    })
+    // this.sessionForm.valueChanges.subscribe(res=>{
+    //   this.recupCours()
+    // })
 
     this.sessionForm.valueChanges.subscribe(res=>{
       const session = JSON.stringify(res);
-      localStorage.setItem('session', session);      
+      localStorage.setItem('session', session);
     })
 
     this.sessionForm.get('semestre')?.valueChanges.subscribe(res=>{
@@ -146,7 +146,7 @@ export class SessionComponent {
     }else{
       this.modules = []
     }
-    
+
   }
 
   recupCours()
@@ -181,7 +181,7 @@ export class SessionComponent {
             // console.log(this.rightClasses);
           })
         }
-        
+
       })
 
     }else{
@@ -209,7 +209,7 @@ export class SessionComponent {
     this.breukh.getResources().subscribe((res:any)=>{
       this.salles = res.salles;
       this.newSalles = this.salles.filter((element:any) => element.places >= this.effectif)
-      
+
       if (this.newSalles.length == 0) {
         this.isSalle = true
       }else{
@@ -219,7 +219,7 @@ export class SessionComponent {
     })
   }
 
-  // getSelectedSalles(selectedSalle: any) {   
+  // getSelectedSalles(selectedSalle: any) {
   //   this.newSalles.forEach((salle:any) => {
   //     return salle.isSelected = (salle === selectedSalle)? true : false;
   //   });

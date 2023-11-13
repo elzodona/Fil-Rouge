@@ -20,7 +20,7 @@ export class SesdoneComponent {
   {
     this.breukh.toValidate().subscribe((res: any) => {
       this.toValidate = res;
-      // console.log(res);
+      console.log(res);
     })
   }
 

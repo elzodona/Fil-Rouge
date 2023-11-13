@@ -46,9 +46,9 @@ export class ProfesseurComponent implements OnInit {
             this.count = res.data.length
             // console.log(this.cours);
             this.cours.forEach(element => {
-                this.times += element.time
+                this.times += element.time_restant
             });
-        })        
+        })
     }
 
     convertirEnHeures(secondes: number): string {
@@ -61,7 +61,7 @@ export class ProfesseurComponent implements OnInit {
     }
 
     deconnecter() {
-        this.toastr.success('Bye Bye petit papillon');
+        this.toastr.success('See you soon!');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         this.router.navigateByUrl('/login');

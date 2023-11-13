@@ -7,7 +7,7 @@
         <div class="m-4 p-2 grid grid-cols-1">
             <h1 class="font-medium" style="font-size: 2em;" >Année Scolaire</h1>
             <span class="text-2xl">2023/2024</span>
-            
+
         </div>
 
         <ng-container *ngIf="display">
@@ -30,7 +30,6 @@
             <div>
                 <h1 style="font-size: 3em;" class="mt-12 font-medium">Sessions Planifiés</h1>
             </div>
-
             <div class="flex flex-col mt-10 ml-5 gap-4">
                 <span style="font-size: 2em;" class="font-medium"><span class="text-2xl">{{module | module}}</span></span>
                 <span style="font-size: 2em;" class="font-medium"><span class="text-2xl">{{prof | professeur}}</span> </span>
@@ -48,7 +47,7 @@
             <div *ngFor="let cour of cours.reverse() | etatCour:selectedEtat" class="m-4 flex flex-col bg-white shadow-xl shadow-[#57b6f5] p-4 mb-4 rounded-lg">
                 <div class="flex justify-between">
                     <p class="text-xl">{{ cour.prof_id.name }}</p>
-                    <p class="text-xl">{{ convertirEnHeures(cour.time) }}</p>
+                    <p class="text-xl">time_restant: {{ convertirEnHeures(cour.time_restant) }}</p>
                 </div>
                 <h2 class="text-3xl mt-6 text-center text-black border-2 rounded-2xl bg-[#57b6f5] font-bold mb-2">{{ cour.module_id.libelle }}</h2>
                 <div class="flex justify-between mt-4">
@@ -67,9 +66,9 @@
 
         <ng-container *ngIf="!display">
             <app-liste-session></app-liste-session>
-            
+
         </ng-container>
-        
+
     </div>
 
     <ng-container *ngIf="!display">

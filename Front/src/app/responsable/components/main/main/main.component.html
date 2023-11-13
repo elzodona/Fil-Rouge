@@ -21,22 +21,30 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="px-3 pb-4 overflow-y-auto mt-16 text-white dark:bg-gray-800">
                 <ul class="space-y-10 text-center font-medium">
                     <li
+                        [class.bg-white]="child === 'home'"
+                        [class.text-black]="child === 'home'"
                         class="flex items-center cursor-pointer p-2 rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                         <span (click)="showChild3()" class="flex-1 ml-3 whitespace-nowrap text-3xl">Home</span>
                     </li>
                     <li
+                        [class.bg-white]="child === 'cours'"
+                        [class.text-black]="child === 'cours'"
                         class="flex items-center p-2 cursor-pointer rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                         <span (click)="showChild1()" class="flex-1 ml-3 whitespace-nowrap text-3xl">Planification cours</span>
                     </li>
                     <li
+                        [class.bg-white]="child === 'session'"
+                        [class.text-black]="child === 'session'"
                         class="flex items-center p-2 cursor-pointer rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                         <span (click)="showChild2()" class="flex-1 ml-3 whitespace-nowrap text-3xl">Planification session</span>
                     </li>
                     <li
+                        [class.bg-white]="child === 'eleve'"
+                        [class.text-black]="child === 'eleve'"
                         class="flex items-center p-2 cursor-pointer rounded-lg dark:text-white hover:bg-gray-100 hover:text-black dark:hover:bg-gray-700 group">
                         <span (click)="showChild4()" class="flex-1 ml-3 whitespace-nowrap text-3xl">Inscrire élèves</span>
                     </li>
@@ -46,20 +54,20 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="flex flex-col mt-16 items-center space-y-2">
                 <img class="w-[50%] h-[50%] border-4 border-white rounded-full" src="assets/logo.png" alt="school's tof" />
                 <h2 class="text-2xl font-medium text-white dark:text-light">
                     Breukh'School
                 </h2>
-            
+
             </div>
 
         </div>
     </aside>
 
     <div class="p-4 w-full h-screen">
-        
+
         <div *ngIf="child === 'cours' " class="mt-1">
             <app-cours></app-cours>
         </div>
@@ -67,7 +75,7 @@
         <div *ngIf="child == 'home' " class="mt-1">
             <app-home></app-home>
         </div>
-        
+
         <div *ngIf="child == 'session' " class="mt-1">
             <app-session></app-session>
         </div>
@@ -75,7 +83,7 @@
         <div *ngIf="child == 'eleve' " class="mt-1">
             <app-eleve></app-eleve>
         </div>
-        
+
     </div>
 
 </div>

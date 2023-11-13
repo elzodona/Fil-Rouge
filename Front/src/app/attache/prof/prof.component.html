@@ -4,28 +4,14 @@
     <div class="flex flex-col gap-10 h-screen shadow-xl shadow-[#57b6f5]">
 
         <div class="h-[18%] grid grid-cols-3 shadow-lg gap-2 shadow-[#57b6f5]">
+          <div class="col-span-1 flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+            <p style="font-size: 2.5em;" class="text-center">Annee Scolaire</p>
+            <p style="font-size: 1.5em;" class="text-center">2023/2024</p>
+          </div>
 
-            <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
-                <div class="">
-                    <p style="font-size: 2.5em;" class="text-center">Annee Scolaire</p>
-                    <p style="font-size: 1.5em;" class="text-center">2023/2024</p>
-                </div>
-            </div>
-
-            <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
-                <div class="">
-                    <p style="font-size: 2.5em;" class="text-center"></p>
-                    <p style="font-size: 1.5em;" class="text-center"></p>
-                </div>
-            </div>
-
-            <div class="flex flex-col shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
-                <div class="">
-                    <p style="font-size: 2.5em;" class="text-center"></p>
-                    <p style="font-size: 1.5em;" class="text-center"></p>
-                </div>
-            </div>
-
+          <div class="col-span-2 mt-6 shadow-lg shadow-[#57b6f5] p-2 mb-1 rounded-lg">
+            <p style="font-size: 2.5em;" class="text-center">Gestion Cours Professeurs</p>
+          </div>
         </div>
 
         <h1 class="text-4xl text-center">Professeurs disponibles</h1>
@@ -48,7 +34,7 @@
                                 View Cours
                             </span>
                         </div>
-        
+
                     </div>
                 </div>
             </div>
@@ -96,10 +82,10 @@
             <p style="font-size: 1.5em;" class="text-center">{{convertirEnHeures(time_restant)}}</p>
         </div>
     </div>
-    
+
     <div class="max-h-[70%] overflow-y-auto grid grid-cols-1 shadow-2xl shadow-[#57b6f5] md:grid-cols-2 lg:grid-cols-3 ga2">
         <div class=" px-10 w-[300%] shadow-xl">
-        
+
             <div class="flex justify-center items-center gap-6 shadow-2xl">
                 <div class="flex space-x-2">
                     <label class="text-xl mt-2">Salle</label>
@@ -141,7 +127,7 @@
                 </div>
 
             </div>
-        
+
             <div class="relative overflow-x-auto mt-10 shadow-2xl sm:rounded-lg">
                 <table class="w-full text-sm text-left shadow-2xl text-gray-500 dark:text-gray-400">
                     <thead class="text-2xl text-gray-700 shadow-2xl uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -200,7 +186,13 @@
                     </tbody>
                 </table>
             </div>
-        
+
+            <div class="flex justify-end mt-4 mb-4 mr-10">
+              <button disabled class="bg-[#57b6f5] text-white px-2 py-1 rounded-xl mr-2">Précédent</button>
+              <button class="bg-[#57b6f5] text-white px-2 py-1 rounded-xl mr-2">1</button>
+              <button disabled class="bg-[#57b6f5] text-white px-2 py-1 rounded-xl">Suivant</button>
+            </div>
+
         </div>
     </div>
 <div>

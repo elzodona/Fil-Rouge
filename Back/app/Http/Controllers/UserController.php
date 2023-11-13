@@ -230,6 +230,29 @@ class UserController extends Controller
         return response()->json(SessionCourResource::collection($tab));
     }
 
+    public function sessionEnCours($id)
+    {
+        $dateAujourdhui = now()->toDateString();
+        $sessionsEnCours = SessionCour::where('validé', 'pas encore')
+        ->where('date_session', $dateAujourdhui)
+            ->get();
+        $heureActuelle = now();
+        $tab = [];
+        foreach ($sessionsEnCours as $session) {
+            $heureDebut = gmdate('H:i:s', $session->started_at);
+            $heureFin = gmdate('H:i:s', $session->finished_at);
+
+            $heureFinCarbon = Carbon::createFromFormat('H:i:s', $heureDebut);
+            $heureFinCarbon = Carbon::createFromFormat('H:i:s', $heureFin);
+
+            if ($heureDebut > $heureActuelle && $heureFin < $heureActuelle) {
+                $tab[]=$session;
+            }
+
+        }
+        return $tab;
+    }
+
     public function getAbsences($id)
     {
         $elId = User::where('id', $id)->first()->id;
@@ -256,5 +279,26 @@ class UserController extends Controller
         return $absences;
     }
 
+    public function numAbsences($id)
+    {
+        $absences = $this->getAbsences($id);
+        $duree=0;
+        // return $absences;
+        foreach ($absences as $value) {
+            $duree += +$value->duration;
+        }
+        return $duree;
+    }
 
+    public function getElevesByClasses($id)
+    {
+        $insc = Inscription::where('classe_id', $id)->get();
+        $eleves = $insc->pluck('eleve_id');
+        // return $eleves;
+        $el=[];
+        foreach ($eleves as $value) {
+            $el [] = User::where('id', $value)->first();
+        }
+        return $el;
+    }
 }

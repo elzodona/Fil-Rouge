@@ -27,9 +27,8 @@ export class AttacheComponent implements OnInit {
     demandes: any
     motif!: string
     sessionId: number = 0
-    affiche: string = 'sessions'
+    affiche: string = 'prof'
     numero: number = 0
-    
 
 
     calendarOptions: CalendarOptions = {
@@ -64,7 +63,7 @@ export class AttacheComponent implements OnInit {
     }
 
     deconnecter() {
-        this.toastr.success('Bye Bye petit papillon');
+      this.toastr.success('See you soon!');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
         this.router.navigateByUrl('/login');
@@ -137,16 +136,17 @@ export class AttacheComponent implements OnInit {
 
     home()
     {
-        this.affiche = 'notif'
+      this.affiche = 'notif'
     }
 
     prof()
     {
-        this.affiche = 'prof'
+      this.affiche = 'prof'
     }
 
     sessions(){
-        this.affiche = 'sessions'
+      this.affiche = 'sessions'
     }
+
 
 }
